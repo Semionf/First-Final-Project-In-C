@@ -1,5 +1,6 @@
 #include "getInfo.h"
 
+int numOfProcesses = 0;
 
 t_DLL* headD = NULL;
 t_DLL* tailD = NULL;
@@ -7,11 +8,12 @@ t_DLL* tailD = NULL;
 t_Process* headP = NULL;
 t_Process* tailP = NULL;
 
-void getMemoryInfo(DWORD processID)
+t_Process* getMemoryInfo(DWORD processID )
 {
 	t_Process* Process;
 	t_DLL* DLL;
-	
+	headD = NULL;
+	tailD = NULL;
 	size_t numConverted;
 
 	HANDLE hProcess;
@@ -24,13 +26,14 @@ void getMemoryInfo(DWORD processID)
 	if (NULL == hProcess)
 	{
 		LogError(strerror(GetLastError()));
-		return;
+		return NULL;
 	}
+	numOfProcesses++;
 	Process = (t_Process*)malloc(sizeof(t_Process));
 	if (!Process)
 	{
 		LogError(strerror(GetLastError()));
-		return;
+		return NULL;
 	}
 	HMODULE hMods[1024];
 	DWORD cbNeeded;
@@ -49,7 +52,7 @@ void getMemoryInfo(DWORD processID)
 		// You better call GetLastError() here
 		// Write To log
 		LogError(strerror(GetLastError()));
-		return;
+		return NULL;
 	}
 
 	if (GetProcessMemoryInfo(hProcess, &pmc, sizeof(pmc)))
@@ -75,7 +78,7 @@ void getMemoryInfo(DWORD processID)
 				if (!DLL)
 				{
 					LogError(strerror(GetLastError()));
-					return;
+					return NULL;
 				}
 				// * Get the module name and handle value.
 
@@ -94,14 +97,17 @@ void getMemoryInfo(DWORD processID)
 		Process->numOfDLL = 0;
 		Process->DLL = NULL;
 	}
-	addToProcessList(Process);
+	
 	CloseHandle(hProcess);
+	return Process;
 }
 t_snapShot* GetProcessesInfo(t_snapShot* oldSnapShot)
 {
 	// Get Processes
-
 	t_snapShot* snapShot;
+	t_Process* process;
+	headP = NULL;
+	tailP = NULL;
 	DWORD aProcesses[1024], cbNeeded, cProcesses;
 	unsigned int i;
 
@@ -124,9 +130,13 @@ t_snapShot* GetProcessesInfo(t_snapShot* oldSnapShot)
 	// *Loop of all processes
 	for (i = 0; i < cProcesses; i++)
 	{
-		getMemoryInfo(aProcesses[i]);
+		process = getMemoryInfo(aProcesses[i]);
+		if (process)
+		{
+			addToProcessList(process);
+		}
 	}
-
+	printf("%d", numOfProcesses);
 	snapShot->process = headP;
 	
 	// For each Process to get its Memory Information
@@ -139,9 +149,54 @@ t_snapShot* GetProcessesInfo(t_snapShot* oldSnapShot)
 
 t_snapShot* sumProcessesAndDLL(t_snapShot* old, t_snapShot* new)
 {
-	//t_snapShot* oldTemp;
-	//t_snapShot* newTemp;
-	return old;
+	t_snapShot* oldTemp = old;
+	t_snapShot* newTemp = new;
+	
+	while (newTemp->process)
+	{
+		oldTemp = old;
+		while (oldTemp->process)
+		{
+			if (oldTemp->process->ProcessID == newTemp->process->ProcessID)
+			{
+				
+				oldTemp->process->pmc.PageFaultCount += newTemp->process->pmc.PageFaultCount;
+				oldTemp->process->pmc.PagefileUsage += newTemp->process->pmc.PagefileUsage;
+				oldTemp->process->pmc.WorkingSetSize += newTemp->process->pmc.WorkingSetSize;
+				oldTemp->process->pmc.QuotaPagedPoolUsage += newTemp->process->pmc.QuotaPagedPoolUsage;
+				oldTemp->process->pmc.QuotaPeakPagedPoolUsage += newTemp->process->pmc.QuotaPeakPagedPoolUsage;
+				while (newTemp->process->DLL)
+				{
+					
+					while (oldTemp->process->DLL)
+					{
+						if (newTemp->process->DLL->DLLName == oldTemp->process->DLL->DLLName)
+						{
+							break;
+						}
+						if (!oldTemp->process->DLL->next)
+						{
+							addNewDll(oldTemp->process->DLL, newTemp->process->DLL);
+							oldTemp->process->numOfDLL++;
+							printf("new dll list: \n");
+							printf("%s", newTemp->process->DLL->DLLName);
+							printDllList(oldTemp->process->DLL);
+						}
+						oldTemp->process->DLL = oldTemp->process->DLL->next;
+					}
+					newTemp->process->DLL = newTemp->process->DLL->next;
+				}
+				break;
+			}
+			if (!oldTemp->process->next)
+			{
+				addNewProcess(oldTemp->process, newTemp->process);
+			}
+			oldTemp->process = oldTemp->process->next;
+		}
+		newTemp->process = newTemp->process->next;
+	}
+	return oldTemp;
 }
 
 void addToDllList(t_DLL* DLL)
@@ -173,5 +228,29 @@ void addToProcessList(t_Process* process)
 		process->prev = tailP;
 		process->next = NULL;
 		tailP = process;
+	}
+}
+
+void addNewDll(t_DLL* oldDLL, t_DLL* newDLL)
+{
+	oldDLL->next = newDLL;
+	newDLL->prev = oldDLL;
+	newDLL = NULL;
+}
+
+void addNewProcess(t_Process* oldProcess, t_Process* newProcess)
+{
+	oldProcess->next = newProcess;
+	newProcess->prev = oldProcess;
+	newProcess = NULL;
+}
+
+printDllList(t_DLL* dll)
+{
+	t_DLL* temp = dll;
+	while (temp)
+	{
+		printf("%s\n", temp->DLLName);
+		temp = temp->prev;
 	}
 }

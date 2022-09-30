@@ -1,2 +1,8 @@
 ﻿  getInfo.c
+C:\Users\משתמש\source\repos\FirstSemesterProject\FirstSemesterProject\getInfo.c(179,39): warning C4133: 'function': incompatible types - from 't_DLL *' to 't_Process *'
+C:\Users\משתמש\source\repos\FirstSemesterProject\FirstSemesterProject\getInfo.c(179,62): warning C4133: 'function': incompatible types - from 't_DLL *' to 't_Process *'
+C:\Users\משתמש\source\repos\FirstSemesterProject\FirstSemesterProject\getInfo.c(183,8): warning C4013: 'printDllList' undefined; assuming extern returning int
+C:\Users\משתמש\source\repos\FirstSemesterProject\FirstSemesterProject\getInfo.c(234,23): warning C4028: formal parameter 1 different from declaration
+C:\Users\משתמש\source\repos\FirstSemesterProject\FirstSemesterProject\getInfo.c(234,38): warning C4028: formal parameter 2 different from declaration
+C:\Users\משתמש\source\repos\FirstSemesterProject\FirstSemesterProject\getInfo.c(256): warning C4716: 'printDllList': must return a value
   FirstSemesterProject.vcxproj -> C:\Users\משתמש\source\repos\FirstSemesterProject\x64\Debug\FirstSemesterProject.exe

@@ -25,12 +25,14 @@ typedef struct snapShot {
 	t_Process* process;
 	char timeOfSample[50];
 	int sampleNumber;
-	struct DLL* next;
-	struct DLL* prev;
+	struct snapShot* next;
+	struct snapShot* prev;
 }t_snapShot;
 
-void getMemoryInfo(DWORD );
+t_Process* getMemoryInfo(DWORD );
 t_snapShot* GetProcessesInfo(t_snapShot*);
-t_snapShot* sumProcessesAndDLL(t_snapShot* old, t_snapShot* new);
+t_snapShot* sumProcessesAndDLL(t_snapShot* , t_snapShot* );
 void addToDllList(t_DLL*);
 void addToProcessList(t_Process*);
+void addNewDll(t_Process* , t_Process* );
+void addNewProcess(t_Process* , t_Process* );

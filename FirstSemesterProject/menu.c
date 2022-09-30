@@ -14,7 +14,7 @@ void menu()
 	t_snapShot* snapShot;
 	
 	do {
-		printf("Please select one of the following options:\n1. One snap shot.\n2. Twenty snap shots.\n3. Generate html report.\n4.Reset collection.\n5. Save in file.\n6. Load from file.\n7. Quit.");
+		printf("Please select one of the following options:\n1. One snap shot.\n2. Twenty snap shots.\n3. Generate html report.\n4.Reset collection.\n5. Save in file.\n6. Load from file.\n7. Quit.\n");
 		scanf("%d", &option);
 		switch (option)
 		{
@@ -56,6 +56,7 @@ void menu()
 			diffMin = endMin - startMin;
 			diffSec = endSec - startSec;
 			snapShot->sampleNumber = numberOfSnapShot;
+			sprintf(snapShot->timeOfSample, "Sample time is %d min and %d sec", diffMin, diffSec);
 			addToList(snapShot);
 			break;
 		case 3:
