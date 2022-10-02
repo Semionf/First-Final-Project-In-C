@@ -36,6 +36,12 @@
     <ClCompile Include="resetCollection.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Save_Load.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="LinkedLists.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="menu.h">
@@ -54,6 +60,15 @@
       <Filter>Source Files</Filter>
     </ClInclude>
     <ClInclude Include="resetCollection.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="structs.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Save_Load.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="LinkedLists.h">
       <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>

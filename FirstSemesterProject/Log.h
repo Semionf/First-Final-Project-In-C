@@ -3,7 +3,7 @@
 #include <string.h>
 #include <time.h>
 
-
+#pragma once
 #pragma warning (disable:4996)
 
 void Log(char[]);

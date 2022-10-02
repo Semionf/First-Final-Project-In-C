@@ -129,19 +129,24 @@
   <ItemGroup>
     <ClCompile Include="generateHtmlReport.c" />
     <ClCompile Include="getInfo.c" />
+    <ClCompile Include="LinkedLists.c" />
     <ClCompile Include="Log.c" />
     <ClCompile Include="main.c" />
     <ClCompile Include="menu.c" />
     <ClCompile Include="resetCollection.c" />
+    <ClCompile Include="Save_Load.c" />
     <ClCompile Include="snapShot.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="generateHtmlReport.h" />
     <ClInclude Include="getInfo.h" />
+    <ClInclude Include="LinkedLists.h" />
     <ClInclude Include="Log.h" />
     <ClInclude Include="menu.h" />
     <ClInclude Include="resetCollection.h" />
+    <ClInclude Include="Save_Load.h" />
     <ClInclude Include="snapShot.h" />
+    <ClInclude Include="structs.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

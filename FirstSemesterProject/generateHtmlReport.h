@@ -1,2 +1,4 @@
 #include "Log.h"	
-void generateHtmlReport();
+#include "snapShot.h"
+#pragma once
+void generateHtmlReport(t_snapShot*);

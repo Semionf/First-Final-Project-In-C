@@ -3,6 +3,7 @@
 #include <time.h>
 #include "snapShot.h"
 #include "generateHtmlReport.h"
-
+#include "resetCollection.h"
+#include "Save_Load.h"
+#pragma once
 void menu();
-void addToList(t_snapShot*);

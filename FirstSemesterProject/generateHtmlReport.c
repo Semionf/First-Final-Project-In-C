@@ -1,6 +1,6 @@
 #include "generateHtmlReport.h"
 
-void generateHtmlReport()
+void generateHtmlReport(t_snapShot* head)
 {
 
 }

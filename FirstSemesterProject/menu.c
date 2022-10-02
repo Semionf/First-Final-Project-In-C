@@ -1,18 +1,19 @@
 #include "menu.h"
 
 
-t_snapShot* head = NULL;
-t_snapShot* tail = NULL;
+
 
 void menu()
 {
-	int startSec, endSec, diffSec = 0, diffMin = 0, startMin, endMin;
 	time_t t;
+	char str[50];
 	struct tm* timeInfo;
 	int option = 0;
 	int numberOfSnapShot = 0;
 	t_snapShot* snapShot;
-	
+	t_snapShot* snapShotList = NULL;
+	t_headerOfFile headerOfFile;
+	headerOfFile.version = 1;
 	do {
 		printf("Please select one of the following options:\n1. One snap shot.\n2. Twenty snap shots.\n3. Generate html report.\n4.Reset collection.\n5. Save in file.\n6. Load from file.\n7. Quit.\n");
 		scanf("%d", &option);
@@ -20,59 +21,42 @@ void menu()
 		{
 		case 1:
 			numberOfSnapShot++;
-			time(&t);
+			headerOfFile.ItemsCount = numberOfSnapShot;
 			timeInfo = localtime(&t);
-			startSec = timeInfo->tm_sec;
-			startMin = timeInfo->tm_min;
+			time(&t);
+			sprintf(str, "Date and time of sample: %d %d %d - %02d:%02d:%02d", timeInfo->tm_year + 1900, timeInfo->tm_mon + 1, timeInfo->tm_mday, timeInfo->tm_hour, timeInfo->tm_min);
 			snapShot = oneSnapShot(NULL,numberOfSnapShot);
-			time(&t);
-			
-			timeInfo = localtime(&t);
-			endSec = timeInfo->tm_sec;
-			endMin = timeInfo->tm_min;
-			diffMin = endMin - startMin;
-			diffSec = endSec - startSec;
-			if (diffSec < 0)
-			{
-				diffSec += 60;
-				diffMin--;
-			}
+			strcpy(snapShot->timeOfSample, str);
 			snapShot->sampleNumber = numberOfSnapShot;
-			sprintf(snapShot->timeOfSample, "Sample time is %d min and %d sec", diffMin, diffSec);
-			addToList(snapShot);
+			snapShotList = addToList(snapShot);
 			break;
 		case 2:
 			numberOfSnapShot++;
-			time(&t);
+			headerOfFile.ItemsCount = numberOfSnapShot;
 			timeInfo = localtime(&t);
-			startSec = timeInfo->tm_sec;
-			startMin = timeInfo->tm_min;
+			time(&t);
+			sprintf(str, "Date and time of sample: %d %d %d - %02d:%02d:%02d", timeInfo->tm_year + 1900, timeInfo->tm_mon + 1, timeInfo->tm_mday, timeInfo->tm_hour, timeInfo->tm_min);
 			snapShot = twentySnapShots();
-			time(&t);
-			struct tm* timeInfo;
-			timeInfo = localtime(&t);
-			endSec = timeInfo->tm_sec;
-			endMin = timeInfo->tm_min;
-			diffMin = endMin - startMin;
-			diffSec = endSec - startSec;
+			strcpy(snapShot->timeOfSample, str);
 			snapShot->sampleNumber = numberOfSnapShot;
-			sprintf(snapShot->timeOfSample, "Sample time is %d min and %d sec", diffMin, diffSec);
-			addToList(snapShot);
+			snapShotList = addToList(snapShot);
 			break;
 		case 3:
-			generateHtmlReport();
+			generateHtmlReport(snapShotList);
 			break;
 		case 4:
-			resetCollection();
+			resetCollection(snapShotList);
 			break;
 		case 5: 
-			//saveInFile();
+			saveInFile(headerOfFile, snapShotList);
+			resetCollection(snapShotList);
 			break;
 		case 6:
-			//loadFromFile();
+			snapShotList = loadFromFile(headerOfFile);
 			break;
 		case 7:
-			resetCollection();
+			resetCollection(snapShotList);
+			headerOfFile.ItemsCount = 0;
 			break;
 		default:
 			printf("Wrong option chosen, please try again.");
@@ -81,17 +65,3 @@ void menu()
 	} while (option != 7);
 }
 
-void addToList(t_snapShot* snapShot)
-{
-	if (!head)
-	{
-		snapShot->next = snapShot->prev = NULL;
-		head = tail = snapShot;
-	}
-	else {
-		tail->next = snapShot;
-		snapShot->prev = tail;
-		snapShot->next = NULL;
-		tail = snapShot;
-	}
-}

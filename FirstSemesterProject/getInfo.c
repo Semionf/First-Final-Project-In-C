@@ -1,6 +1,5 @@
 #include "getInfo.h"
 
-int numOfProcesses = 0;
 
 t_DLL* headD = NULL;
 t_DLL* tailD = NULL;
@@ -28,7 +27,7 @@ t_Process* getMemoryInfo(DWORD processID )
 		LogError(strerror(GetLastError()));
 		return NULL;
 	}
-	numOfProcesses++;
+
 	Process = (t_Process*)malloc(sizeof(t_Process));
 	if (!Process)
 	{
@@ -136,7 +135,6 @@ t_snapShot* GetProcessesInfo(t_snapShot* oldSnapShot)
 			addToProcessList(process);
 		}
 	}
-	printf("%d", numOfProcesses);
 	snapShot->process = headP;
 	
 	// For each Process to get its Memory Information
@@ -170,7 +168,7 @@ t_snapShot* sumProcessesAndDLL(t_snapShot* old, t_snapShot* new)
 					
 					while (oldTemp->process->DLL)
 					{
-						if (newTemp->process->DLL->DLLName == oldTemp->process->DLL->DLLName)
+						if (strcmp(newTemp->process->DLL->DLLName, oldTemp->process->DLL->DLLName) == 0)
 						{
 							break;
 						}
