@@ -15,16 +15,16 @@ void menu()
 	t_headerOfFile headerOfFile;
 	headerOfFile.version = 1;
 	do {
-		printf("Please select one of the following options:\n1. One snap shot.\n2. Twenty snap shots.\n3. Generate html report.\n4.Reset collection.\n5. Save in file.\n6. Load from file.\n7. Quit.\n");
+		printf("Please select one of the following options:\n1. One snap shot.\n2. Twenty snap shots.\n3. Generate html report.\n4. Reset collection.\n5. Save in file.\n6. Load from file.\n7. Quit.\n");
 		scanf("%d", &option);
 		switch (option)
 		{
 		case 1:
 			numberOfSnapShot++;
 			headerOfFile.ItemsCount = numberOfSnapShot;
-			timeInfo = localtime(&t);
 			time(&t);
-			sprintf(str, "Date and time of sample: %d %d %d - %02d:%02d:%02d", timeInfo->tm_year + 1900, timeInfo->tm_mon + 1, timeInfo->tm_mday, timeInfo->tm_hour, timeInfo->tm_min);
+			timeInfo = localtime(&t);
+			sprintf(str, "Date and time of sample: %d %d %d - %02d:%02d", timeInfo->tm_year + 1900, timeInfo->tm_mon + 1, timeInfo->tm_mday, timeInfo->tm_hour, timeInfo->tm_min);
 			snapShot = oneSnapShot(NULL,numberOfSnapShot);
 			strcpy(snapShot->timeOfSample, str);
 			snapShot->sampleNumber = numberOfSnapShot;
@@ -33,9 +33,9 @@ void menu()
 		case 2:
 			numberOfSnapShot++;
 			headerOfFile.ItemsCount = numberOfSnapShot;
-			timeInfo = localtime(&t);
 			time(&t);
-			sprintf(str, "Date and time of sample: %d %d %d - %02d:%02d:%02d", timeInfo->tm_year + 1900, timeInfo->tm_mon + 1, timeInfo->tm_mday, timeInfo->tm_hour, timeInfo->tm_min);
+			timeInfo = localtime(&t);
+			sprintf(str, "Date and time of sample: %d %d %d - %02d:%02d", timeInfo->tm_year + 1900, timeInfo->tm_mon + 1, timeInfo->tm_mday, timeInfo->tm_hour, timeInfo->tm_min);
 			snapShot = twentySnapShots();
 			strcpy(snapShot->timeOfSample, str);
 			snapShot->sampleNumber = numberOfSnapShot;
@@ -46,6 +46,7 @@ void menu()
 			break;
 		case 4:
 			resetCollection(snapShotList);
+			addToList(NULL);
 			break;
 		case 5: 
 			saveInFile(headerOfFile, snapShotList);

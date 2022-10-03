@@ -19,6 +19,7 @@ typedef struct Process {
 
 typedef struct snapShot {
 	t_Process* process;
+	int processCounter;
 	char timeOfSample[50];
 	int sampleNumber;
 	struct snapShot* next;

@@ -3,7 +3,6 @@
 t_snapShot* oneSnapShot(t_snapShot* oldSnapShot, int num)
 {
 	t_snapShot* snapShot;
-	printf("%d", num);
 	snapShot = GetProcessesInfo(oldSnapShot);
 	return snapShot;
 }
@@ -14,6 +13,8 @@ t_snapShot* twentySnapShots()
 	for (int i = 0; i < 20; i++)
 	{
 		snapShot = oneSnapShot(snapShot,i);
+		printf("\n\nRotation number %d \n\n",i);
+		//printProcessList(snapShot->process);
 		Sleep(1000);
 	}
 	return snapShot;
