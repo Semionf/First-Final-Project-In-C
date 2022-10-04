@@ -19,7 +19,7 @@ void resetSnapShot(t_snapShot* snapShotList) {
 	}
 
 	free(currentSnapShot);
-
+	addToList(NULL);
 }
 
 void resetCollection(t_snapShot* snapShotList) {
@@ -45,4 +45,5 @@ void resetCollection(t_snapShot* snapShotList) {
 		snapShotList = snapShotList->next;
 		free(currentSnapShot);
 	}
+	addToList(NULL);
 }

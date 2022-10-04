@@ -224,7 +224,6 @@ t_snapShot* sumProcessesAndDLL(t_snapShot* oldSnapShot, t_snapShot* newSnapShot)
 				oldSnapShot->processCounter++;
 				printf("List after: \n--------\n");
 				printProcessList(oldTempProcessesList);
-				oldSnapShot->process = oldSnapShot->process->next;
 				break;
 			}
 			oldSnapShot->process = oldSnapShot->process->next;
@@ -240,140 +239,6 @@ t_snapShot* sumProcessesAndDLL(t_snapShot* oldSnapShot, t_snapShot* newSnapShot)
 	return oldSnapShot;
 }
 
-/*
-t_snapShot* sumProcessesAndDLL(t_snapShot* firstSnapShot, DWORD processID)
-{
-	int processEqual = 0;
-	t_Process* Process;
-	t_Process* tempProcess = firstSnapShot->process;
-	t_DLL* DLL = firstSnapShot->process->DLL;
-	t_DLL* tempDll = firstSnapShot->process->DLL;
-	size_t numConverted;
-	char str[MAX_PATH];
-
-	HANDLE hProcess;
-	PROCESS_MEMORY_COUNTERS pmc;
-
-	// Open process in order to receive information
-	hProcess = OpenProcess(PROCESS_QUERY_INFORMATION |
-		PROCESS_VM_READ,
-		FALSE, processID);
-	if (NULL == hProcess)
-	{
-		LogError(strerror(GetLastError()));
-		return NULL;
-	}
-
-	HMODULE hMods[1024];
-	DWORD cbNeeded;
-	TCHAR FoundProcessName[MAX_PATH];
-	TCHAR wDllName[MAX_PATH];
-	
-	int i = 0;
-	// Get Process Name
-	if (GetModuleFileNameEx(hProcess, 0, FoundProcessName, MAX_PATH))
-	{
-
-		// At this point, buffer contains the full path to the executable
-		wcstombs_s(&numConverted, str, MAX_PATH, FoundProcessName, MAX_PATH);
-		if (strlen(str) <= 1)
-			return;
-	}
-	else
-	{
-		// You better call GetLastError() here
-		// Write To log
-		LogError(strerror(GetLastError()));
-		return NULL;
-	}
-	Process = (t_Process*)malloc(sizeof(t_Process));
-	strcpy(Process->ProcessName, str);
-	Process->ProcessID = processID;
-	if (GetProcessMemoryInfo(hProcess, &pmc, sizeof(pmc)))
-	{
-		Process->pmc.WorkingSetSize = pmc.WorkingSetSize;
-		Process->pmc.PageFaultCount = pmc.PageFaultCount;
-		Process->pmc.PagefileUsage = pmc.PagefileUsage;
-		Process->pmc.QuotaPagedPoolUsage = pmc.QuotaPagedPoolUsage;
-		Process->pmc.QuotaPeakPagedPoolUsage = pmc.QuotaPeakPagedPoolUsage;
-	}
-	
-	// Get Dlls List
-
-	if (EnumProcessModules(hProcess, hMods, sizeof(hMods), &cbNeeded))
-	{
-		for (i = 0; i < (cbNeeded / sizeof(HMODULE)); i++)
-		{
-			// Get the full path to the module's file.
-			if (GetModuleFileNameEx(hProcess, hMods[i], wDllName, MAX_PATH))
-			{
-				DLL = (t_DLL*)malloc(sizeof(t_DLL));
-				if (!DLL)
-				{
-					LogError(strerror(GetLastError()));
-					return NULL;
-				}
-				// * Get the module name and handle value.
-
-				// Convert wChar to regular char array (string)
-
-				wcstombs_s(&numConverted, DLL->DLLName, MAX_PATH, wDllName, MAX_PATH);
-				addToDllList(DLL);
-			}
-		}
-		Process->DLL = headD;
-		Process->numOfDLL = i;
-	}
-	Process->ProcessID = processID;
-	if (i == 0) // no dll for this process
-	{
-		Process->numOfDLL = 0;
-		Process->DLL = NULL;
-	}
-	while (firstSnapShot->process && processEqual == 0)
-	{
-		if (firstSnapShot->process->ProcessID == Process->ProcessID)
-		{
-			processEqual = 1;
-			firstSnapShot->process->pmc.WorkingSetSize += Process->pmc.WorkingSetSize;
-			firstSnapShot->process->pmc.PageFaultCount += Process->pmc.PageFaultCount;
-			firstSnapShot->process->pmc.PagefileUsage += Process->pmc.PagefileUsage;
-			firstSnapShot->process->pmc.QuotaPagedPoolUsage += Process->pmc.QuotaPagedPoolUsage;
-			firstSnapShot->process->pmc.QuotaPeakPagedPoolUsage += Process->pmc.QuotaPeakPagedPoolUsage;
-		}
-		while (Process->DLL)
-		{
-			
-			firstSnapShot->process->DLL = tempDll;
-			while (firstSnapShot->process->DLL)
-			{
-				if (strcmp(firstSnapShot->process->DLL->DLLName, Process->DLL->DLLName) == 0)
-				{
-					break;
-				}
-				if (!firstSnapShot->process->DLL)
-				{
-					addNewDll(firstSnapShot->process->DLL, Process->DLL);
-					firstSnapShot->process->numOfDLL++;
-				}
-				firstSnapShot->process->DLL = firstSnapShot->process->DLL->next;
-			}
-			Process->DLL = Process->DLL->next;
-		}
-		if (!firstSnapShot->process->next)
-		{
-			addNewProcess(firstSnapShot->process, Process);
-			break;
-		}
-		firstSnapShot->process = firstSnapShot->process->next;
-	}
-	CloseHandle(hProcess);
-	firstSnapShot->process = tempProcess;
-	freeProcess(Process);
-	return firstSnapShot;
-}
-
-*/
 void addToDllList(t_DLL* DLL)
 {
 	if (!DLL)
@@ -463,24 +328,3 @@ void freeProcess(t_Process* Process)
 	free(Process);
 }
 
-/*
-void freeList(t_snapShot* snapShot) {
-	
-	t_Process* currentPorcess = snapShot;
-	t_DLL* currentDLL;
-
-		while (snapShot->process)
-		{
-			currentPorcess = snapShot->process;
-			while (snapShot->process->DLL)
-			{
-				currentDLL = snapShot->process->DLL;
-				snapShot->process->DLL = snapShot->process->DLL->next;
-				free(currentDLL);
-			}
-			snapShot->process = snapShot->process->next;
-			free(currentPorcess);
-		}
-		free(snapShot);
-}
-*/

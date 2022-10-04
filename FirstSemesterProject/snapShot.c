@@ -14,7 +14,7 @@ t_snapShot* twentySnapShots()
 	{
 		snapShot = oneSnapShot(snapShot,i);
 		printf("\n\nRotation number %d \n\n",i);
-		//printProcessList(snapShot->process);
+		printProcessList(snapShot->process);
 		Sleep(1000);
 	}
 	return snapShot;

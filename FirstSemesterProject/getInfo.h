@@ -8,11 +8,9 @@
 #include "resetCollection.h"
 #pragma once
 void freeProcess(t_Process* );
-//void freeList(t_snapShot* );
 t_snapShot* sumProcessesAndDLL(t_snapShot*, t_snapShot*);
 t_Process* getMemoryInfo(DWORD );
 t_snapShot* GetProcessesInfo(t_snapShot*);
-//t_snapShot* sumProcessesAndDLL(t_snapShot*, DWORD);
 void printDllList(t_DLL* );
 void printProcessList(t_Process* );
 void addToDllList(t_DLL*);
