@@ -5,5 +5,6 @@
 #include "generateHtmlReport.h"
 #include "resetCollection.h"
 #include "Save_Load.h"
+#include "Dictionary.h"
 #pragma once
 void menu();

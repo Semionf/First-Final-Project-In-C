@@ -127,6 +127,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Dictionary.c" />
     <ClCompile Include="generateHtmlReport.c" />
     <ClCompile Include="getInfo.c" />
     <ClCompile Include="LinkedLists.c" />
@@ -138,6 +139,7 @@
     <ClCompile Include="snapShot.c" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Dictionary.h" />
     <ClInclude Include="generateHtmlReport.h" />
     <ClInclude Include="getInfo.h" />
     <ClInclude Include="LinkedLists.h" />

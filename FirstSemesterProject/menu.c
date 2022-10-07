@@ -1,7 +1,5 @@
 #include "menu.h"
-
-
-
+Dictionary* dict = NULL;
 
 void menu()
 {
@@ -52,7 +50,8 @@ void menu()
 			snapShot->sampleNumber = numberOfSnapShots;
 			snapShotList = addToList(snapShot);
 		case 4:
-			generateHtmlReport(snapShotList);
+			dict = buildDictionary(snapShotList);
+			generateHtmlReport(snapShotList, dict);
 			break;
 		case 5:
 			resetCollection(snapShotList);

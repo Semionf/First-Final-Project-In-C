@@ -2,3 +2,4 @@
 #include "snapShot.h"
 #pragma once
 void generateHtmlReport(t_snapShot*);
+void homePage(t_snapShot*, Dictionary*);
