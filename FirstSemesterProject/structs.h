@@ -26,6 +26,7 @@ typedef struct snapShot {
 	struct snapShot* prev;
 }t_snapShot;
 
+
 typedef struct headerOfFile {
 	int version;
 	int serialNum;

@@ -35,6 +35,7 @@ t_Process* getMemoryInfo(DWORD processID )
 	TCHAR wDllName[MAX_PATH];
 	
 	int i = 0;
+	int numOfDLL = 0;
 	// Get Process Name
 	if (GetModuleFileNameEx(hProcess, 0, FoundProcessName, MAX_PATH))
 	{
@@ -84,6 +85,7 @@ t_Process* getMemoryInfo(DWORD processID )
 					wcstombs_s(&numConverted, str, MAX_PATH, wDllName, MAX_PATH);
 					if (strlen(str) > 1)
 					{
+						numOfDLL++;
 						DLL = (t_DLL*)malloc(sizeof(t_DLL));
 						if (!DLL)
 						{
@@ -99,7 +101,7 @@ t_Process* getMemoryInfo(DWORD processID )
 			}
 		}
 		Process->DLL = headD;
-		Process->numOfDLL = i;
+		Process->numOfDLL = numOfDLL;
 	}
 	Process->ProcessID = processID;
 	if (i == 0) // no dll for this process
@@ -197,7 +199,7 @@ t_snapShot* sumProcessesAndDLL(t_snapShot* oldSnapShot, t_snapShot* newSnapShot)
 						if (!oldSnapShot->process->DLL->next)
 						{
 							newDLL = (t_DLL*)malloc(sizeof(t_DLL));
-							*newDLL = *newSnapShot->process->DLL;
+							*newDLL = *(newSnapShot->process->DLL);
 							printf("old dll list: \n\n------------\n");
 							printDllList(oldDllList);
 							printf("new dll is: %s\n", newSnapShot->process->DLL->DLLName);

@@ -1,6 +1,6 @@
 #include "snapShot.h"
 
-t_snapShot* oneSnapShot(t_snapShot* oldSnapShot, int num)
+t_snapShot* oneSnapShot(t_snapShot* oldSnapShot)
 {
 	t_snapShot* snapShot;
 	snapShot = GetProcessesInfo(oldSnapShot);
@@ -16,6 +16,32 @@ t_snapShot* twentySnapShots()
 		printf("\n\nRotation number %d \n\n",i);
 		printProcessList(snapShot->process);
 		Sleep(1000);
+	}
+	return snapShot;
+}
+
+t_snapShot* LongSnapShot()
+{
+	int stop = 0;
+	int i = 0;
+	char ch[10];
+	t_snapShot* snapShot = NULL;
+	while(stop != 1)
+	{
+		i++;
+		snapShot = oneSnapShot(snapShot, i);
+		printf("\n\nRotation number %d \n\n", i);
+		printProcessList(snapShot->process);
+		Sleep(1000);
+		if (kbhit())
+		{
+			printf("Write End in order to finish Long snap shot\n");
+			scanf("%s",ch);
+			if (strcmp(ch,"End")==0)
+			{
+				stop = 1;
+			}
+		}
 	}
 	return snapShot;
 }
