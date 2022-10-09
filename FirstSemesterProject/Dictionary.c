@@ -33,6 +33,7 @@ Dictionary* buildDictionary(t_snapShot* head)
 
 void addToDictionary(char* DLLName, t_Process* process)
 {
+	int i = 0;
 	Dictionary* sub = (Dictionary*)malloc(sizeof(Dictionary));
 	sub->value = (t_Process*)malloc(sizeof(t_Process));
 	Dictionary* curr = dictHead;

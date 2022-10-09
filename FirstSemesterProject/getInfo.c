@@ -175,7 +175,6 @@ t_snapShot* sumProcessesAndDLL(t_snapShot* oldSnapShot, t_snapShot* newSnapShot)
 	while (newSnapShot->process)
 	{
 		newDllList = newSnapShot->process->DLL;
-		oldSnapShot->process = oldTempProcessesList;
 		while (oldSnapShot->process)
 		{
 			oldDllList = oldSnapShot->process->DLL;
@@ -189,7 +188,6 @@ t_snapShot* sumProcessesAndDLL(t_snapShot* oldSnapShot, t_snapShot* newSnapShot)
 				oldSnapShot->process->pmc.QuotaPeakPagedPoolUsage += newSnapShot->process->pmc.QuotaPeakPagedPoolUsage;
 				while (newSnapShot->process->DLL)
 				{
-					oldSnapShot->process->DLL = oldDllList;
 					while (oldSnapShot->process->DLL)
 					{
 						if (strcmp(oldSnapShot->process->DLL->DLLName, newSnapShot->process->DLL->DLLName) == 0)
@@ -200,17 +198,18 @@ t_snapShot* sumProcessesAndDLL(t_snapShot* oldSnapShot, t_snapShot* newSnapShot)
 						{
 							newDLL = (t_DLL*)malloc(sizeof(t_DLL));
 							*newDLL = *(newSnapShot->process->DLL);
-							printf("old dll list: \n\n------------\n");
-							printDllList(oldDllList);
-							printf("new dll is: %s\n", newSnapShot->process->DLL->DLLName);
+							//printf("old dll list: \n\n------------\n");
+							//printDllList(oldDllList);
+							//printf("new dll is: %s\n", newSnapShot->process->DLL->DLLName);
 							addNewDll(oldSnapShot->process->DLL, newDLL);
 							oldSnapShot->process->numOfDLL++;
-							printf("New dll list\n\n------------\n");
-							printDllList(oldDllList);
+							//printf("New dll list\n\n------------\n");
+							//printDllList(oldDllList);
 							break;
 						}
 						oldSnapShot->process->DLL = oldSnapShot->process->DLL->next;
 					}
+					oldSnapShot->process->DLL = oldDllList;
 					newSnapShot->process->DLL = newSnapShot->process->DLL->next;
 				}
 				break; 
@@ -218,19 +217,20 @@ t_snapShot* sumProcessesAndDLL(t_snapShot* oldSnapShot, t_snapShot* newSnapShot)
 			if (!oldSnapShot->process->next)
 			{
 				newProcess = (t_Process*)malloc(sizeof(t_Process));
-				printf("List before: \n --------\n");
-				printProcessList(oldTempProcessesList);
-				*newProcess = *newSnapShot->process;
-				printf("the new process is %s\n", newSnapShot->process->ProcessName);
+				//printf("List before: \n --------\n");
+				//printProcessList(oldTempProcessesList);
+				*newProcess = *(newSnapShot->process);
+				//printf("the new process is %s\n", newSnapShot->process->ProcessName);
 				addNewProcess(oldSnapShot->process, newProcess);
 				oldSnapShot->processCounter++;
-				printf("List after: \n--------\n");
-				printProcessList(oldTempProcessesList);
+				//printf("List after: \n--------\n");
+				//printProcessList(oldTempProcessesList);
 				break;
 			}
 			oldSnapShot->process = oldSnapShot->process->next;
 		}
 		oldSnapShot->process->DLL = oldDllList;
+		oldSnapShot->process = oldTempProcessesList;
 		newSnapShot->process->DLL = newDllList;
 		newSnapShot->process = newSnapShot->process->next;
 	}

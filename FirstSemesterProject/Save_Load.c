@@ -7,7 +7,7 @@ t_DLL* tailDLL = NULL;
 t_Process* headProcess = NULL;
 t_Process* tailProcess = NULL;
 
-void saveInFile(t_headerOfFile headerOfFile, t_snapShot* head)
+void saveInFile(t_headerOfFile* headerOfFile, t_snapShot* head)
 {
 	char fileName[100];
 	t_snapShot* curr = head;
@@ -26,10 +26,11 @@ void saveInFile(t_headerOfFile headerOfFile, t_snapShot* head)
 		LogError(strerror(GetLastError()));
 		return;
 	}
-	fwrite(&headerOfFile, sizeof(t_headerOfFile), 1, f);
-	for (int i = 0; i < headerOfFile.ItemsCount; i++)
+	fwrite(headerOfFile, sizeof(t_headerOfFile), 1, f);
+	for (int i = 0; i < headerOfFile->ItemsCount; i++)
 	{
 		fwrite(curr, sizeof(t_snapShot), 1, f);
+		currProcess = curr->process;
 		while (currProcess)
 		{
 			fwrite(currProcess, sizeof(t_Process), 1, f);
@@ -47,7 +48,7 @@ void saveInFile(t_headerOfFile headerOfFile, t_snapShot* head)
 	fclose(f);
 }
 
-t_snapShot* loadFromFile(t_headerOfFile headerOfFile)
+t_snapShot* loadFromFile(t_headerOfFile* headerOfFile)
 {
 
 	headDLL = NULL;
@@ -68,13 +69,13 @@ t_snapShot* loadFromFile(t_headerOfFile headerOfFile)
 		LogError(strerror(GetLastError()));
 		exit(1);
 	}
-	fread(&headerOfFile, sizeof(t_headerOfFile), 1, f);
-	if (!headerOfFile.ItemsCount)
+	fread(headerOfFile, sizeof(t_headerOfFile), 1, f);
+	if (!headerOfFile->ItemsCount)
 	{
 		Log("File is empty.\n");
 		return;
 	}
-	for (int i = 0; i < headerOfFile.ItemsCount; i++)
+	for (int i = 0; i < headerOfFile->ItemsCount; i++)
 	{
 		curr = (t_snapShot*)malloc(sizeof(t_snapShot));
 		if (!curr)
@@ -89,7 +90,7 @@ t_snapShot* loadFromFile(t_headerOfFile headerOfFile)
 			LogError(strerror(GetLastError()));
 			exit(1);
 		}
-		for(int i = 0; i < curr->processCounter; i++)
+		for(int j = 0; j < curr->processCounter; j++)
 		{
 			fread(currProcess, sizeof(t_Process), 1, f);
 			currDLL = (t_DLL*)malloc(sizeof(t_DLL));
@@ -98,7 +99,7 @@ t_snapShot* loadFromFile(t_headerOfFile headerOfFile)
 				LogError(strerror(GetLastError()));
 				exit(1);
 			}
-			for (int j = 0; j < currProcess->numOfDLL; j++)
+			for (int k = 0; k < currProcess->numOfDLL; k++)
 			{
 				fread(currDLL, sizeof(t_DLL), 1, f);
 				addToDllListFromFile(currDLL);

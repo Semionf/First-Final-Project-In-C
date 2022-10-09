@@ -17,3 +17,6 @@ void addToDllList(t_DLL*);
 void addToProcessList(t_Process*);
 void addNewDll(t_DLL* , t_DLL* );
 void addNewProcess(t_Process* , t_Process* );
+
+extern t_Process* headP;
+extern t_Process* tailP;

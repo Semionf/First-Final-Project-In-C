@@ -17,9 +17,7 @@ void resetSnapShot(t_snapShot* snapShotList) {
 		snapShotList->process = snapShotList->process->next;
 		free(currentPorcess);
 	}
-
 	free(currentSnapShot);
-	addToList(NULL);
 }
 
 void resetCollection(t_snapShot* snapShotList) {
@@ -39,9 +37,11 @@ void resetCollection(t_snapShot* snapShotList) {
 				snapShotList->process->DLL = snapShotList->process->DLL->next;
 				free(currentDLL);
 			}
+			snapShotList->process->DLL = NULL;
 			snapShotList->process = snapShotList->process->next;
 			free(currentPorcess);
 		}
+		snapShotList->process = NULL;
 		snapShotList = snapShotList->next;
 		free(currentSnapShot);
 	}
