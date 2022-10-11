@@ -21,7 +21,7 @@ Dictionary* buildDictionary(t_snapShot* head)
 			currDLL = currProcess->DLL;
 			while (currDLL)
 			{
-				addToDictionary(currDLL->DLLName,currProcess);
+				addToDictionary(tolower(currDLL->DLLName),currProcess);
 				currDLL = currDLL->next;
 			}
 			currProcess = currProcess->next;

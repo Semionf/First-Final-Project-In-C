@@ -1,5 +1,49 @@
-﻿  generateHtmlReport.c
+﻿  Dictionary.c
+C:\Users\משתמש\source\repos\FirstSemesterProject\FirstSemesterProject\Dictionary.c(11,3): warning C4033: 'buildDictionary' must return a value
+C:\Users\משתמש\source\repos\FirstSemesterProject\FirstSemesterProject\Dictionary.c(24,45): warning C4047: 'function': 'int' differs in levels of indirection from 'char [260]'
+C:\Users\משתמש\source\repos\FirstSemesterProject\FirstSemesterProject\Dictionary.c(24,36): warning C4024: 'tolower': different types for formal and actual parameter 1
+C:\Users\משתמש\source\repos\FirstSemesterProject\FirstSemesterProject\Dictionary.c(24,46): warning C4047: 'function': 'char *' differs in levels of indirection from 'int'
+C:\Users\משתמש\source\repos\FirstSemesterProject\FirstSemesterProject\Dictionary.c(24,21): warning C4024: 'addToDictionary': different types for formal and actual parameter 1
+C:\Users\משתמש\source\repos\FirstSemesterProject\FirstSemesterProject\Dictionary.c(40,14): warning C4098: 'addToDictionary': 'void' function returning a value
+C:\Users\משתמש\source\repos\FirstSemesterProject\FirstSemesterProject\Dictionary.c(46,14): warning C4098: 'addToDictionary': 'void' function returning a value
+C:\Users\משתמש\source\repos\FirstSemesterProject\FirstSemesterProject\Dictionary.c(96,16): warning C4098: 'addNewValue': 'void' function returning a value
+C:\Users\משתמש\source\repos\FirstSemesterProject\FirstSemesterProject\Dictionary.c(135,14): warning C4098: 'addProcessToDictionary': 'void' function returning a value
+C:\Users\משתמש\source\repos\FirstSemesterProject\FirstSemesterProject\Dictionary.c(141,14): warning C4098: 'addProcessToDictionary': 'void' function returning a value
+C:\Users\משתמש\source\repos\FirstSemesterProject\FirstSemesterProject\Dictionary.c(145,13): warning C4101: 'newProcess': unreferenced local variable
+  generateHtmlReport.c
 C:\Users\משתמש\source\repos\FirstSemesterProject\FirstSemesterProject\generateHtmlReport.c(4,1): warning C4029: declared formal parameter list different from definition
-C:\Users\משתמש\source\repos\FirstSemesterProject\FirstSemesterProject\generateHtmlReport.c(50,14): warning C4047: 'return': 'long' differs in levels of indirection from 'void *'
-C:\Users\משתמש\source\repos\FirstSemesterProject\FirstSemesterProject\generateHtmlReport.c(65,12): warning C4244: '=': conversion from '__int64' to 'long', possible loss of data
+C:\Users\משתמש\source\repos\FirstSemesterProject\FirstSemesterProject\generateHtmlReport.c(8,13): warning C4101: 'currP': unreferenced local variable
+C:\Users\משתמש\source\repos\FirstSemesterProject\FirstSemesterProject\generateHtmlReport.c(53,27): warning C4020: 'SamplesList': too many actual parameters
+C:\Users\משתמש\source\repos\FirstSemesterProject\FirstSemesterProject\generateHtmlReport.c(89,24): warning C4477: 'sprintf' : format string '%ld' requires an argument of type 'long', but variadic argument 4 has type 'SIZE_T'
+C:\Users\משתמש\source\repos\FirstSemesterProject\FirstSemesterProject\generateHtmlReport.c(89,24): message : consider using '%lld' in the format string
+C:\Users\משתמש\source\repos\FirstSemesterProject\FirstSemesterProject\generateHtmlReport.c(89,24): message : consider using '%Id' in the format string
+C:\Users\משתמש\source\repos\FirstSemesterProject\FirstSemesterProject\generateHtmlReport.c(89,24): message : consider using '%I64d' in the format string
+C:\Users\משתמש\source\repos\FirstSemesterProject\FirstSemesterProject\generateHtmlReport.c(89,24): warning C4477: 'sprintf' : format string '%ld' requires an argument of type 'long', but variadic argument 5 has type 'SIZE_T'
+C:\Users\משתמש\source\repos\FirstSemesterProject\FirstSemesterProject\generateHtmlReport.c(89,24): message : consider using '%lld' in the format string
+C:\Users\משתמש\source\repos\FirstSemesterProject\FirstSemesterProject\generateHtmlReport.c(89,24): message : consider using '%Id' in the format string
+C:\Users\משתמש\source\repos\FirstSemesterProject\FirstSemesterProject\generateHtmlReport.c(89,24): message : consider using '%I64d' in the format string
+C:\Users\משתמש\source\repos\FirstSemesterProject\FirstSemesterProject\generateHtmlReport.c(89,24): warning C4477: 'sprintf' : format string '%ld' requires an argument of type 'long', but variadic argument 7 has type 'SIZE_T'
+C:\Users\משתמש\source\repos\FirstSemesterProject\FirstSemesterProject\generateHtmlReport.c(89,24): message : consider using '%lld' in the format string
+C:\Users\משתמש\source\repos\FirstSemesterProject\FirstSemesterProject\generateHtmlReport.c(89,24): message : consider using '%Id' in the format string
+C:\Users\משתמש\source\repos\FirstSemesterProject\FirstSemesterProject\generateHtmlReport.c(89,24): message : consider using '%I64d' in the format string
+C:\Users\משתמש\source\repos\FirstSemesterProject\FirstSemesterProject\generateHtmlReport.c(109,7): warning C4101: 'aboutMe': unreferenced local variable
+C:\Users\משתמש\source\repos\FirstSemesterProject\FirstSemesterProject\generateHtmlReport.c(108,7): warning C4101: 'htmlHomePage': unreferenced local variable
+C:\Users\משתמש\source\repos\FirstSemesterProject\FirstSemesterProject\generateHtmlReport.c(118,14): warning C4047: 'return': 'long' differs in levels of indirection from 'void *'
+C:\Users\משתמש\source\repos\FirstSemesterProject\FirstSemesterProject\generateHtmlReport.c(133,12): warning C4244: '=': conversion from '__int64' to 'long', possible loss of data
+C:\Users\משתמש\source\repos\FirstSemesterProject\FirstSemesterProject\generateHtmlReport.c(142,14): warning C4047: 'return': 'long' differs in levels of indirection from 'void *'
+C:\Users\משתמש\source\repos\FirstSemesterProject\FirstSemesterProject\generateHtmlReport.c(155,12): warning C4244: '=': conversion from '__int64' to 'long', possible loss of data
+C:\Users\משתמש\source\repos\FirstSemesterProject\FirstSemesterProject\generateHtmlReport.c(159,1): warning C4029: declared formal parameter list different from definition
+C:\Users\משתמש\source\repos\FirstSemesterProject\FirstSemesterProject\generateHtmlReport.c(169,3): warning C4033: 'SamplesList' must return a value
+C:\Users\משתמש\source\repos\FirstSemesterProject\FirstSemesterProject\generateHtmlReport.c(185,3): warning C4033: 'DLLList' must return a value
+  main.c
+  menu.c
+C:\Users\משתמש\source\repos\FirstSemesterProject\FirstSemesterProject\menu.c(17,11): warning C4098: 'menu': 'void' function returning a value
+C:\Users\משתמש\source\repos\FirstSemesterProject\FirstSemesterProject\menu.c(64,37): warning C4020: 'generateHtmlReport': too many actual parameters
+  Generating Code...
+C:\Users\משתמש\source\repos\FirstSemesterProject\FirstSemesterProject\generateHtmlReport.c(176): warning C4715: 'SamplesList': not all control paths return a value
+C:\Users\משתמש\source\repos\FirstSemesterProject\FirstSemesterProject\generateHtmlReport.c(191): warning C4715: 'DLLList': not all control paths return a value
+C:\Users\משתמש\source\repos\FirstSemesterProject\FirstSemesterProject\generateHtmlReport.c(197): warning C4172: returning address of local variable or temporary: str
+C:\Users\משתמש\source\repos\FirstSemesterProject\FirstSemesterProject\generateHtmlReport.c(190): warning C4172: returning address of local variable or temporary: str
+C:\Users\משתמש\source\repos\FirstSemesterProject\FirstSemesterProject\generateHtmlReport.c(175): warning C4172: returning address of local variable or temporary: str
+C:\Users\משתמש\source\repos\FirstSemesterProject\FirstSemesterProject\Dictionary.c(32): warning C4715: 'buildDictionary': not all control paths return a value
   FirstSemesterProject.vcxproj -> C:\Users\משתמש\source\repos\FirstSemesterProject\x64\Debug\FirstSemesterProject.exe
