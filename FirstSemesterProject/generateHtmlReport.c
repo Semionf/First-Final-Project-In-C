@@ -19,12 +19,16 @@ void generateHtmlReport(t_snapShot* head, Dictionary* dictHead)
 
 void homePage(t_snapShot* headS, Dictionary* headD)
 {
-	int totalDLL;
+	char htmlHomePage[10000];
+	int numOfDLL;
+	int numOfProcess;
 	long avgOfWorkingSetSize;
 	Dictionary* currD = headD;
 	t_snapShot* currS = headS;
 	t_Process* currP = currS->process;
-	totalDLL = countNumOfDLL(currP);
+	P_Dictionary* head = buildProcessDictionary(currS);
+	numOfDLL = countNumOfDLL(currD);
+	numOfProcess = countNumOfProcesses(head);
 	avgOfWorkingSetSize = calculateAvgWorkingSetSize(currS);
 }
 
@@ -38,26 +42,25 @@ void generateDLLPage(Dictionary* curr)
 
 }
 
-int countNumOfDLL(t_Process* headP)
-{
-	int numOfDLL = 0;
-	t_Process* curr = headP;
-	while (curr)
-	{
-		numOfDLL += curr->numOfDLL;
-		curr = curr->next;
-	}
-	return numOfDLL;
-}
 
 long calculateAvgWorkingSetSize(t_snapShot* snapShot)
 {
-	t_Process* curr = snapShot->process;
-	long sum = 0;
+	t_snapShot* curr = snapShot;
+	if (!curr)
+	{
+		return NULL;
+	}
+	t_Process* currProcess;
+	long long sum = 0;
 	long avg;
 	while (curr)
 	{
-		sum += curr->pmc.WorkingSetSize;
+		currProcess = curr->process;
+		while (currProcess)
+		{
+			sum += currProcess->pmc.WorkingSetSize;
+			currProcess = currProcess->next;
+		}
 		curr = curr->next;
 	}
 	avg = sum / snapShot->processCounter;

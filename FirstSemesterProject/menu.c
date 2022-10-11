@@ -10,7 +10,12 @@ void menu()
 	int numberOfSnapShots = 0;
 	t_snapShot* snapShot;
 	t_snapShot* snapShotList = NULL;
-	t_headerOfFile* headerOfFile = (t_headerOfFile*)malloc(sizeof(t_headerOfFile));;
+	t_headerOfFile* headerOfFile = (t_headerOfFile*)malloc(sizeof(t_headerOfFile));
+	if (!headerOfFile)
+	{
+		LogError(strerror(GetLastError()));
+		return 1;
+	}
 	headerOfFile->version = 1;
 	headerOfFile->ItemsCount = 0;
 	do {
@@ -59,24 +64,21 @@ void menu()
 			generateHtmlReport(snapShotList, dict);
 			break;
 		case 5:
-			resetCollection(snapShotList);
+			resetCollection(snapShotList, headerOfFile);
 			headerOfFile->ItemsCount = 0;
 			snapShotList = NULL;
 			addToList(NULL);
 			break;
 		case 6: 
 			saveInFile(headerOfFile, snapShotList);
-			resetCollection(snapShotList);
 			break;
 		case 7:
 			snapShotList = loadFromFile(headerOfFile);
 			break;
 		case 8:
-			resetCollection(snapShotList);
+			resetCollection(snapShotList, headerOfFile);
 			numberOfSnapShots = 0;
 			headerOfFile->ItemsCount = numberOfSnapShots;
-			break;
-		case 9:
 			break;
 		default:
 			printf("Wrong option chosen, please try again.");

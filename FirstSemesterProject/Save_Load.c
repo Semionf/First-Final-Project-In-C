@@ -34,7 +34,6 @@ void saveInFile(t_headerOfFile* headerOfFile, t_snapShot* head)
 		while (currProcess)
 		{
 			fwrite(currProcess, sizeof(t_Process), 1, f);
-			printf("%s\n", currProcess->ProcessName);
 			currDLL = currProcess->DLL;
 			while (currDLL)
 			{

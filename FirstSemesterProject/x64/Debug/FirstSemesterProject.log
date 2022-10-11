@@ -1,4 +1,5 @@
-﻿  Save_Load.c
-C:\Users\משתמש\source\repos\FirstSemesterProject\FirstSemesterProject\Save_Load.c(76,3): warning C4033: 'loadFromFile' must return a value
-C:\Users\משתמש\source\repos\FirstSemesterProject\FirstSemesterProject\Save_Load.c(134): warning C4715: 'loadFromFile': not all control paths return a value
+﻿  generateHtmlReport.c
+C:\Users\משתמש\source\repos\FirstSemesterProject\FirstSemesterProject\generateHtmlReport.c(4,1): warning C4029: declared formal parameter list different from definition
+C:\Users\משתמש\source\repos\FirstSemesterProject\FirstSemesterProject\generateHtmlReport.c(50,14): warning C4047: 'return': 'long' differs in levels of indirection from 'void *'
+C:\Users\משתמש\source\repos\FirstSemesterProject\FirstSemesterProject\generateHtmlReport.c(65,12): warning C4244: '=': conversion from '__int64' to 'long', possible loss of data
   FirstSemesterProject.vcxproj -> C:\Users\משתמש\source\repos\FirstSemesterProject\x64\Debug\FirstSemesterProject.exe

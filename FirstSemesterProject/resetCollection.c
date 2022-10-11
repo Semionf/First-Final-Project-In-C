@@ -20,7 +20,7 @@ void resetSnapShot(t_snapShot* snapShotList) {
 	free(currentSnapShot);
 }
 
-void resetCollection(t_snapShot* snapShotList) {
+void resetCollection(t_snapShot* snapShotList, t_headerOfFile* header) {
 	t_snapShot* currentSnapShot;
 	t_Process* currentPorcess;
 	t_DLL* currentDLL;
@@ -45,5 +45,6 @@ void resetCollection(t_snapShot* snapShotList) {
 		snapShotList = snapShotList->next;
 		free(currentSnapShot);
 	}
+	free(header);
 	addToList(NULL);
 }

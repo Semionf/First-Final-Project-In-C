@@ -53,12 +53,12 @@ t_Process* getMemoryInfo(DWORD processID )
 		return NULL;
 	}
 	Process = (t_Process*)malloc(sizeof(t_Process));
-	strcpy(Process->ProcessName, str);
 	if (!Process)
 	{
 		LogError(strerror(GetLastError()));
 		return NULL;
 	}
+	strcpy(Process->ProcessName, str);
 	if (GetProcessMemoryInfo(hProcess, &pmc, sizeof(pmc)))
 	{
 		Process->pmc.WorkingSetSize = pmc.WorkingSetSize;
@@ -217,6 +217,11 @@ t_snapShot* sumProcessesAndDLL(t_snapShot* oldSnapShot, t_snapShot* newSnapShot)
 			if (!oldSnapShot->process->next)
 			{
 				newProcess = (t_Process*)malloc(sizeof(t_Process));
+				if (!newProcess)
+				{
+					LogError(strerror(GetLastError()));
+					return NULL;
+				}
 				//printf("List before: \n --------\n");
 				//printProcessList(oldTempProcessesList);
 				*newProcess = *(newSnapShot->process);
