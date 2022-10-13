@@ -3,7 +3,7 @@
 Dictionary* dictHead = NULL, *dictTail = NULL;
 P_Dictionary* P_dictHead = NULL, * P_dictTail = NULL;
 
-Dictionary* buildDictionary(t_snapShot* head)
+Dictionary* buildDictionary(t_snapShot* head) //build dictionary
 {
 	if (!head)
 	{
@@ -21,7 +21,7 @@ Dictionary* buildDictionary(t_snapShot* head)
 			currDLL = currProcess->DLL;
 			while (currDLL)
 			{
-				addToDictionary(tolower(currDLL->DLLName),currProcess);
+				addToDictionary(currDLL->DLLName,currProcess);
 				currDLL = currDLL->next;
 			}
 			currProcess = currProcess->next;
@@ -31,14 +31,16 @@ Dictionary* buildDictionary(t_snapShot* head)
 	return dictHead;
 }
 
-void addToDictionary(char* DLLName, t_Process* process)
+void addToDictionary(char* DLLName, t_Process* process) //	add key
 {
+	char temp1[MAX_PATH], temp2[MAX_PATH];
 	Dictionary* sub = (Dictionary*)malloc(sizeof(Dictionary));
 	if (!sub)
 	{
 		LogError(strerror(GetLastError()));
 		return NULL;
 	}
+	sub->ProcessesCount = 1;
 	sub->value = (t_Process*)malloc(sizeof(t_Process));
 	if (!sub->value)
 	{
@@ -46,9 +48,8 @@ void addToDictionary(char* DLLName, t_Process* process)
 		return NULL;
 	}
 	Dictionary* curr = dictHead;
+	*sub->value = *process;
 	strcpy(sub->key, DLLName);
-	strcpy(sub->value->ProcessName, process->ProcessName);
-	sub->value->pmc = process->pmc;
 	sub->next = sub->prev = NULL;
 	sub->value->next = sub->value->prev = NULL;
 	if (!dictHead)
@@ -56,10 +57,14 @@ void addToDictionary(char* DLLName, t_Process* process)
 		dictHead = dictTail = sub;
 	}
 	else {
+		strcpy(temp2, sub->key);
+		strcpy(temp2, toLower(temp2));
 		while (curr)
 		{
-			if (strcmp(curr->key, sub->key) == 0)
-			{
+			strcpy(temp1, curr->key);
+			strcpy(temp1, toLower(temp1));
+			if (strcmp(temp1, temp2) == 0)
+			{	
 				addNewValue(curr, sub->value);
 				free(sub->value);
 				free(sub);
@@ -77,18 +82,19 @@ void addToDictionary(char* DLLName, t_Process* process)
 	}
 }
 
-void addNewValue(Dictionary* currDict, t_Process* process)
+void addNewValue(Dictionary* currDict, t_Process* process) // add value
 {
-	t_Process* newProcess;
+	t_Process* newProcess = process;
 	t_Process* curr = currDict->value;
 	while (curr)
 	{
-		if (strcmp(curr->ProcessName, process->ProcessName) == 0)
+		if (curr->ProcessID == newProcess->ProcessID)
 		{
 			break;
 		}
 		if (!curr->next)
 		{
+			currDict->ProcessesCount++;
 			newProcess = (t_Process*)malloc(sizeof(t_Process));
 			if (!newProcess)
 			{
@@ -105,7 +111,7 @@ void addNewValue(Dictionary* currDict, t_Process* process)
 	}
 }
 
-P_Dictionary* buildProcessDictionary(t_snapShot* head)
+P_Dictionary* buildProcessDictionary(t_snapShot* head) // building process dictionary
 {
 	t_snapShot* curr = head;
 	t_Process* currProcess;
@@ -125,7 +131,7 @@ P_Dictionary* buildProcessDictionary(t_snapShot* head)
 	}
 	return P_dictHead;
 }
-void addProcessToDictionary(t_Process* process)
+void addProcessToDictionary(t_Process* process) // add key
 {
 	P_Dictionary* sub = (P_Dictionary*)malloc(sizeof(P_Dictionary));
 	P_Dictionary* curr;
@@ -166,7 +172,7 @@ void addProcessToDictionary(t_Process* process)
 }
 
 
-int countNumOfDLL(Dictionary* head)
+int countNumOfDLL(Dictionary* head) // counting number of DLL in dictionary
 {
 	Dictionary* curr = head;
 	int count = 0;
@@ -178,7 +184,7 @@ int countNumOfDLL(Dictionary* head)
 	return count;
 }
 
-int countNumOfProcesses(P_Dictionary* head)
+int countNumOfProcesses(P_Dictionary* head) // counting number of Processes in dictionary
 {
 	P_Dictionary* curr = head;
 	int count = 0;
@@ -188,4 +194,10 @@ int countNumOfProcesses(P_Dictionary* head)
 		curr = curr->next;
 	}
 	return count;
+}
+
+char* toLower(char* s) // making unique DLL keys (some of DLL names are similar, diffrence is Capital letter or so)
+{
+	for (char* p = s; *p; p++) *p = tolower(*p);
+	return s;
 }

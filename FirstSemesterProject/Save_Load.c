@@ -6,7 +6,7 @@ t_DLL* tailDLL = NULL;
 
 t_Process* headProcess = NULL;
 t_Process* tailProcess = NULL;
-
+// save and load functions for the snapshots
 void saveInFile(t_headerOfFile* headerOfFile, t_snapShot* head)
 {
 	char fileName[100];

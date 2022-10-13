@@ -1,6 +1,6 @@
 #include "menu.h"
 Dictionary* dict = NULL;
-
+//user menu
 void menu()
 {
 	time_t t;
@@ -23,7 +23,7 @@ void menu()
 		scanf("%d", &option);
 		switch (option)
 		{
-		case 1:
+		case 1: //One snapShot
 			numberOfSnapShots = headerOfFile->ItemsCount;
 			numberOfSnapShots++;
 			headerOfFile->ItemsCount = numberOfSnapShots;
@@ -36,7 +36,7 @@ void menu()
 			shakeSort(snapShot);
 			snapShotList = addToList(snapShot);
 			break;
-		case 2:
+		case 2: //Twenty snapshots summed into one
 			numberOfSnapShots = headerOfFile->ItemsCount;
 			numberOfSnapShots++;
 			headerOfFile->ItemsCount = numberOfSnapShots;
@@ -49,7 +49,7 @@ void menu()
 			shakeSort(snapShot);
 			snapShotList = addToList(snapShot);
 			break;
-		case 3:
+		case 3:	//Long summing snapshots till user type "End"
 			numberOfSnapShots++;
 			headerOfFile->ItemsCount = numberOfSnapShots;
 			time(&t);
@@ -59,23 +59,23 @@ void menu()
 			strcpy(snapShot->timeOfSample, str);
 			snapShot->sampleNumber = numberOfSnapShots;
 			snapShotList = addToList(snapShot);
-		case 4:
+		case 4: // Making a dictionary when Dll names are keys and processes are values, then generating html
 			dict = buildDictionary(snapShotList);
 			generateHtmlReport(snapShotList, dict);
 			break;
-		case 5:
+		case 5: // reset all snapshots generated
 			resetCollection(snapShotList, headerOfFile);
 			headerOfFile->ItemsCount = 0;
 			snapShotList = NULL;
 			addToList(NULL);
 			break;
-		case 6: 
+		case 6: // save in file
 			saveInFile(headerOfFile, snapShotList);
 			break;
-		case 7:
+		case 7: // load from file
 			snapShotList = loadFromFile(headerOfFile);
 			break;
-		case 8:
+		case 8: // Delete all and Quit
 			resetCollection(snapShotList, headerOfFile);
 			numberOfSnapShots = 0;
 			headerOfFile->ItemsCount = numberOfSnapShots;
@@ -84,6 +84,6 @@ void menu()
 			printf("Wrong option chosen, please try again.");
 			break;
 		}
-	} while (option != 9);
+	} while (option != 8);
 }
 

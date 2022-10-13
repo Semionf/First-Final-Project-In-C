@@ -3,7 +3,7 @@
 t_snapShot* head = NULL;
 t_snapShot* tail = NULL;
 
-t_snapShot* addToList(t_snapShot* snapShot)
+t_snapShot* addToList(t_snapShot* snapShot) // making snapshot list
 {
 	if (!snapShot)
 	{

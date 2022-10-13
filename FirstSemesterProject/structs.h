@@ -35,7 +35,7 @@ typedef struct headerOfFile {
 }t_headerOfFile;
 
 typedef struct Dictionary {
-	int DLLCount;
+	int ProcessesCount;
 	char key[MAX_PATH]; // name of DLL
 	t_Process* value; // linked list of processes
 	struct Dictionary* next;

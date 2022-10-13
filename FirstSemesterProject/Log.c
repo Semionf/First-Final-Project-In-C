@@ -1,5 +1,5 @@
 #include "Log.h"
-
+// log files that the name is set by the date and time
 void Log(char str[])
 {
 	char Log[100];

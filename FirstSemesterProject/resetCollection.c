@@ -1,5 +1,5 @@
 #include "resetCollection.h"
-void resetSnapShot(t_snapShot* snapShotList) {
+void resetSnapShot(t_snapShot* snapShotList) { // deletes one snapshot
 	t_snapShot* currentSnapShot;
 	t_Process* currentPorcess;
 	t_DLL* currentDLL;
@@ -20,7 +20,7 @@ void resetSnapShot(t_snapShot* snapShotList) {
 	free(currentSnapShot);
 }
 
-void resetCollection(t_snapShot* snapShotList, t_headerOfFile* header) {
+void resetCollection(t_snapShot* snapShotList, t_headerOfFile* header) { // deletes all list
 	t_snapShot* currentSnapShot;
 	t_Process* currentPorcess;
 	t_DLL* currentDLL;

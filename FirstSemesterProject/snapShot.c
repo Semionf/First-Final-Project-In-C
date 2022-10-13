@@ -1,5 +1,5 @@
 #include "snapShot.h"
-
+// diffrent snapshot choices
 t_snapShot* oneSnapShot(t_snapShot* oldSnapShot)
 {
 	t_snapShot* snapShot;

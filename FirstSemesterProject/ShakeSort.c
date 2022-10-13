@@ -1,5 +1,5 @@
 #include "ShakeSort.h"
-
+// a function that sorts the snapshot processes by the number of DLLS in it (a bit quicker then bubble sort)
 t_snapShot* headOfProcesses;
 void shakeSort(t_snapShot* head)
 {

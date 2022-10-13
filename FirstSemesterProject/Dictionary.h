@@ -8,3 +8,4 @@ int countNumOfDLL(Dictionary*);
 P_Dictionary* buildProcessDictionary(t_snapShot*);
 void addProcessToDictionary(t_Process*);
 int countNumOfProcesses(P_Dictionary*);
+char* toLower(char*);

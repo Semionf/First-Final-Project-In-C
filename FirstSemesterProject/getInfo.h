@@ -7,7 +7,7 @@
 #include "structs.h"
 #include "resetCollection.h"
 #pragma once
-void freeProcess(t_Process* );
+
 t_snapShot* sumProcessesAndDLL(t_snapShot*, t_snapShot*);
 t_Process* getMemoryInfo(DWORD );
 t_snapShot* GetProcessesInfo(t_snapShot*);
@@ -17,6 +17,5 @@ void addToDllList(t_DLL*);
 void addToProcessList(t_Process*);
 void addNewDll(t_DLL* , t_DLL* );
 void addNewProcess(t_Process* , t_Process* );
-
 extern t_Process* headP;
 extern t_Process* tailP;
