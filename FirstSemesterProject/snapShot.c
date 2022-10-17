@@ -2,27 +2,28 @@
 // diffrent snapshot choices
 t_snapShot* oneSnapShot(t_snapShot* oldSnapShot)
 {
-	t_snapShot* snapShot;
-	snapShot = GetProcessesInfo(oldSnapShot);
+	t_snapShot* snapShot = oldSnapShot;
+	snapShot = GetProcessesInfo(snapShot);
 	return snapShot;
 }
 
 t_snapShot* twentySnapShots()
 {
-	t_snapShot* snapShot = NULL;
+	t_snapShot* sumSnapShots = NULL;
 	for (int i = 0; i < 20; i++)
 	{
-		snapShot = oneSnapShot(snapShot);
+		sumSnapShots = oneSnapShot(sumSnapShots);
+		printProcessList(sumSnapShots->process);
 		printf("\n\nRotation number %d \n\n",i);
 		Sleep(1000);
 	}
-	return snapShot;
+	return sumSnapShots;
 }
 
 t_snapShot* LongSnapShot()
 {
 	int stop = 0;
-	char ch[10];
+	char ch[10] = { 0 };
 	t_snapShot* snapShot = NULL;
 	while(stop != 1)
 	{

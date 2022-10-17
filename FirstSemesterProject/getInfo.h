@@ -6,9 +6,10 @@
 #include "Log.h"
 #include "structs.h"
 #include "resetCollection.h"
-#pragma once
 
-t_snapShot* sumProcessesAndDLL(t_snapShot*, t_snapShot*);
+#pragma once
+void sumSnapShots(t_snapShot* , DWORD);
+void sumProcessesAndDLL(t_snapShot*, t_snapShot*);
 t_Process* getMemoryInfo(DWORD );
 t_snapShot* GetProcessesInfo(t_snapShot*);
 void printDllList(t_DLL* );

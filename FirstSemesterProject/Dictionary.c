@@ -140,15 +140,9 @@ void addProcessToDictionary(t_Process* process) // add key
 		LogError(strerror(GetLastError()));
 		return NULL;
 	}
-	sub->value = (t_Process*)malloc(sizeof(t_Process));
-	if (!sub->value)
-	{
-		LogError(strerror(GetLastError()));
-		return NULL;
-	}
-	*sub->value = *process;
+	strcpy(sub->value, process->ProcessName);
+	sub->ProcessID = process->ProcessID;
 	sub->next = sub->prev = NULL;
-	t_Process* newProcess;
 	if (!P_dictHead)
 	{
 		P_dictHead = P_dictTail = sub;
@@ -156,7 +150,7 @@ void addProcessToDictionary(t_Process* process) // add key
 	curr = P_dictHead;
 	while (curr)
 	{
-		if (curr->value->ProcessID == sub->value->ProcessID)
+		if (curr->ProcessID == sub->ProcessID && (strcmp(sub->value, curr->value)==0))
 		{
 			return;
 		}
@@ -196,8 +190,11 @@ int countNumOfProcesses(P_Dictionary* head) // counting number of Processes in d
 	return count;
 }
 
-char* toLower(char* s) // making unique DLL keys (some of DLL names are similar, diffrence is Capital letter or so)
+char* toLower(char* str) // making unique DLL keys (some of DLL names are similar, diffrence is Capital letter or so)
 {
-	for (char* p = s; *p; p++) *p = tolower(*p);
-	return s;
+	for (char* p = str; *p; p++)
+	{
+		*p = tolower(*p);
+	}
+	return str;
 }

@@ -15,7 +15,7 @@ void shakeSort(t_snapShot* head)
 	int j = 0;
 	while (curr && i < head->processCounter)
 	{
-		while (curr && j < head->processCounter - 1 - i)
+		while (curr->next && j < head->processCounter - 1 - i)
 		{
 			if (curr->numOfDLL > curr->next->numOfDLL)
 			{
@@ -29,7 +29,7 @@ void shakeSort(t_snapShot* head)
 		while (j > i + 1)
 		{
 			curr = curr->prev;
-			if (curr->numOfDLL > curr->next->numOfDLL)// 1 3 2 4 6 5 7 9 8 10
+			if (curr->numOfDLL > curr->next->numOfDLL)
 			{
 				replace(curr);
 				curr = curr->prev;
@@ -53,9 +53,6 @@ void replace(t_Process* process)
 		LogEvent("Nothing to replace (one node or last node)");
 		return;
 	}
-	char str[100];
-	sprintf(str, "Replacing %d with %d", process->numOfDLL, process->next->numOfDLL);
-	LogEvent(str);
 	t_Process* temp1 = process, * temp2 = process->next;
 	if (temp2->next && temp1->prev)  //2 middle nodes.
 	{
@@ -73,7 +70,7 @@ void replace(t_Process* process)
 		temp2->prev = NULL;
 		temp1->next = NULL;
 		headOfProcesses->process = temp2;
-		tailP = temp1;
+		temp2 = temp2->next;
 		return;
 	}
 	else if (!temp2->next) // two last nodes.
@@ -83,7 +80,7 @@ void replace(t_Process* process)
 		temp1->prev = temp2;
 		temp1->next = NULL;
 		temp2->next = temp1;
-		tailP = temp1;
+		temp2 = temp2->next;
 		return;
 	}
 	else {// two first nodes.

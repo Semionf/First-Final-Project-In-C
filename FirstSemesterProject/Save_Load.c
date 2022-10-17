@@ -52,7 +52,7 @@ t_snapShot* loadFromFile(t_headerOfFile* headerOfFile)
 
 	headDLL = NULL;
 	tailDLL = NULL;
-
+	int itemCount = 0;
 	headProcess = NULL;
 	tailProcess = NULL;
 	char fileName[100];
@@ -60,6 +60,14 @@ t_snapShot* loadFromFile(t_headerOfFile* headerOfFile)
 	scanf("%s", fileName);
 	FILE* f = fopen(fileName, "rb");
 	t_snapShot* snapShotList = NULL;
+	if (headerOfFile == NULL)
+	{
+		headerOfFile = (t_headerOfFile*)malloc(sizeof(t_headerOfFile));
+	}
+	else
+	{
+		itemCount = headerOfFile->ItemsCount;
+	}
 	t_snapShot* curr;
 	t_Process* currProcess;
 	t_DLL* currDLL = NULL;
@@ -69,7 +77,7 @@ t_snapShot* loadFromFile(t_headerOfFile* headerOfFile)
 		exit(1);
 	}
 	fread(headerOfFile, sizeof(t_headerOfFile), 1, f);
-	if (!headerOfFile->ItemsCount)
+	if (!headerOfFile)
 	{
 		Log("File is empty.\n");
 		return;
@@ -129,6 +137,7 @@ t_snapShot* loadFromFile(t_headerOfFile* headerOfFile)
 	}
 	fclose(f);
 	printf("Linked list was uploaded.\n");
+	headerOfFile->ItemsCount += itemCount;
 	return snapShotList;
 }
 

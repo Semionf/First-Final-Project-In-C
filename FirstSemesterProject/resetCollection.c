@@ -1,26 +1,22 @@
 #include "resetCollection.h"
-void resetSnapShot(t_snapShot* snapShotList) { // deletes one snapshot
-	t_snapShot* currentSnapShot;
-	t_Process* currentPorcess;
-	t_DLL* currentDLL;
+void resetProcess(t_Process* process) { // deletes one snapshot
+	t_Process* tempPorcess;
+	t_DLL* tempDLL;
 
-	currentSnapShot = snapShotList;
-	while (snapShotList->process)
+	tempPorcess = process;
+	tempDLL = tempPorcess->DLL;
+	while (tempPorcess->DLL)
 	{
-		currentPorcess = snapShotList->process;
-		while (snapShotList->process->DLL)
-		{
-			currentDLL = snapShotList->process->DLL;
-			snapShotList->process->DLL = snapShotList->process->DLL->next;
-			free(currentDLL);
-		}
-		snapShotList->process = snapShotList->process->next;
-		free(currentPorcess);
+		tempDLL = tempPorcess->DLL;
+		tempPorcess->DLL = tempPorcess->DLL->next;
+		free(tempDLL);
 	}
-	free(currentSnapShot);
+	tempPorcess->DLL = NULL;
+	free(tempPorcess);
+	tempPorcess = NULL;
 }
 
-void resetCollection(t_snapShot* snapShotList, t_headerOfFile* header) { // deletes all list
+void resetCollection(t_snapShot* snapShotList, t_headerOfFile* header, Dictionary* dict) { // deletes all list
 	t_snapShot* currentSnapShot;
 	t_Process* currentPorcess;
 	t_DLL* currentDLL;
@@ -47,4 +43,45 @@ void resetCollection(t_snapShot* snapShotList, t_headerOfFile* header) { // dele
 	}
 	free(header);
 	addToList(NULL);
+	resetDict(dict);
+}
+
+void resetPDict(P_Dictionary* head)
+{
+	P_Dictionary* curr = head;
+	while (head)
+	{
+		curr = head;
+		head = head->next;
+		free(curr);
+	}
+	head = NULL;
+}
+
+void resetDict(Dictionary* head)
+{
+	Dictionary* curr;
+	t_Process* currProc;
+	t_DLL* currDLL;
+	t_DLL* delDLL;
+	while (head)
+	{
+		curr = head;
+		currProc = curr->value;
+		{
+			currDLL = currProc->DLL;
+			while (currDLL)
+			{
+				delDLL = currDLL;
+				currDLL = currDLL->next;
+				free(delDLL);
+			}
+			currDLL = NULL;
+			curr->value = curr->value->next;
+			free(currProc);
+			currProc = NULL;
+		}
+		head = head->next;
+	}
+	head = NULL;
 }

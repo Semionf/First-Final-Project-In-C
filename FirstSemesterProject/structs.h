@@ -43,7 +43,8 @@ typedef struct Dictionary {
 }Dictionary;
 
 typedef struct P_Dictionary {
-	t_Process* value; // linked list of processes
+	char value[MAX_PATH]; // linked list of processes
+	int ProcessID;
 	struct P_Dictionary* next;
 	struct P_Dictionary* prev;
 }P_Dictionary;

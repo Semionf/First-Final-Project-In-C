@@ -7,7 +7,7 @@ t_DLL* tailD = NULL;
 t_Process* headP = NULL;
 t_Process* tailP = NULL;
 
-t_Process* getMemoryInfo(DWORD processID )
+t_Process* getMemoryInfo(DWORD processID)
 {
 	t_Process* Process;
 	t_DLL* DLL;
@@ -15,7 +15,7 @@ t_Process* getMemoryInfo(DWORD processID )
 	tailD = NULL;
 	size_t numConverted;
 	char str[MAX_PATH];
-
+	char str2[MAX_PATH];
 	HANDLE hProcess;
 	PROCESS_MEMORY_COUNTERS pmc;
 
@@ -33,13 +33,13 @@ t_Process* getMemoryInfo(DWORD processID )
 	DWORD cbNeeded;
 	TCHAR FoundProcessName[MAX_PATH];
 	TCHAR wDllName[MAX_PATH];
-	
+
 	int i = 0;
 	int numOfDLL = 0;
 	// Get Process Name
 	if (GetModuleFileNameEx(hProcess, 0, FoundProcessName, MAX_PATH))
 	{
-		
+
 		// At this point, buffer contains the full path to the executable
 		wcstombs_s(&numConverted, str, MAX_PATH, FoundProcessName, MAX_PATH);
 		if (strlen(str) <= 1)
@@ -56,7 +56,7 @@ t_Process* getMemoryInfo(DWORD processID )
 		LogError(strerror(GetLastError()));
 		return NULL;
 	}
-	strcpy(Process->ProcessName, str); 
+	strcpy(Process->ProcessName, str);
 	if (GetProcessMemoryInfo(hProcess, &pmc, sizeof(pmc)))
 	{
 		Process->pmc.WorkingSetSize = pmc.WorkingSetSize;
@@ -79,23 +79,22 @@ t_Process* getMemoryInfo(DWORD processID )
 				// * Get the module name and handle value.
 
 				// Convert wChar to regular char array (string)
-				
-					wcstombs_s(&numConverted, str, MAX_PATH, wDllName, MAX_PATH);
-					if (strlen(str) > 1)
+
+				wcstombs_s(&numConverted, str2, MAX_PATH, wDllName, MAX_PATH);
+				if (strlen(str2) > 1)
+				{
+
+					DLL = (t_DLL*)malloc(sizeof(t_DLL));
+					if (!DLL)
 					{
-						numOfDLL++;
-						DLL = (t_DLL*)malloc(sizeof(t_DLL));
-						if (!DLL)
-						{
-							LogError(strerror(GetLastError()));
-							return NULL;
-						}
-						strcpy(DLL->DLLName, str);
-						addToDllList(DLL);
+						LogError(strerror(GetLastError()));
+						return NULL;
 					}
-					
-				
-				
+					strcpy(DLL->DLLName, str2);
+					addToDllList(DLL);
+					numOfDLL++;
+				}
+
 			}
 		}
 		Process->DLL = headD;
@@ -107,10 +106,11 @@ t_Process* getMemoryInfo(DWORD processID )
 		Process->numOfDLL = 0;
 		Process->DLL = NULL;
 	}
-	
+
 	CloseHandle(hProcess);
 	return Process;
 }
+/*
 t_snapShot* GetProcessesInfo(t_snapShot* oldSnapShot)
 {
 	// Get Processes
@@ -119,7 +119,6 @@ t_snapShot* GetProcessesInfo(t_snapShot* oldSnapShot)
 	headP = NULL;
 	tailP = NULL;
 	DWORD aProcesses[1024], cbNeeded, cProcesses;
-	unsigned int i;
 	int pCounter = 0;
 	// * Receive all process ID and put in aProcesses Array
 	if (!EnumProcesses(aProcesses, sizeof(aProcesses), &cbNeeded))
@@ -128,7 +127,7 @@ t_snapShot* GetProcessesInfo(t_snapShot* oldSnapShot)
 		return NULL;
 	}
 	snapShot = (t_snapShot*)malloc(sizeof(t_snapShot));
-	if(!snapShot)
+	if (!snapShot)
 	{
 		LogError(strerror(GetLastError()));
 		return NULL;
@@ -138,9 +137,9 @@ t_snapShot* GetProcessesInfo(t_snapShot* oldSnapShot)
 
 	// Print the memory usage for each process
 	// *Loop of all processes
-	
 
-	for (i = 0; i < cProcesses; i++)
+
+	for (int i = 0; i < cProcesses; i++)
 	{
 		process = getMemoryInfo(aProcesses[i]);
 		if (process)
@@ -151,75 +150,68 @@ t_snapShot* GetProcessesInfo(t_snapShot* oldSnapShot)
 	}
 	snapShot->processCounter = pCounter;
 	snapShot->process = headP;
-	snapShot->next = NULL;
-	
+	snapShot->next = snapShot->prev = NULL;
 	// For each Process to get its Memory Information
+	
 	if (oldSnapShot)
 	{
-		oldSnapShot = sumProcessesAndDLL(oldSnapShot, snapShot);
+		sumProcessesAndDLL(oldSnapShot, snapShot);
 		return oldSnapShot;
 	}
 	return snapShot;
 }
 
-t_snapShot* sumProcessesAndDLL(t_snapShot* oldSnapShot, t_snapShot* newSnapShot) // this function sum between snapshots
+void sumProcessesAndDLL(t_snapShot* oldSnapShot, t_snapShot* newSnapShot) // this function sum between snapshots
 {
-	t_Process* oldTempProcessesList = oldSnapShot->process;
-	t_Process* newTempProcessesList = newSnapShot->process;
-	t_DLL* oldDllList;
-	t_DLL* newDllList;
-	t_DLL* newDLL;
+	t_Process* currOldProc = oldSnapShot->process;
+	t_Process* currNewProc = newSnapShot->process;
+	t_DLL* currOldDll;
+	t_DLL* currNewDll;
+	
 	t_Process* newProcess;
-	while (newTempProcessesList)
+	t_DLL* newDll;
+
+	while (currNewProc)
 	{
-		oldTempProcessesList = oldSnapShot->process;
-		while (oldTempProcessesList)
+		currOldProc = oldSnapShot->process;
+		while (currOldProc)
 		{
-			oldDllList = oldTempProcessesList->DLL;
-			if (oldTempProcessesList->ProcessID == newTempProcessesList->ProcessID) // if processes got the same id, info is summed up
+			if (currNewProc->ProcessID == currOldProc->ProcessID)
 			{
-				
-				oldTempProcessesList->pmc.PageFaultCount += newTempProcessesList->pmc.PageFaultCount;
-				oldTempProcessesList->pmc.PagefileUsage += newTempProcessesList->pmc.PagefileUsage;
-				oldTempProcessesList->pmc.WorkingSetSize += newTempProcessesList->pmc.WorkingSetSize;
-				oldTempProcessesList->pmc.QuotaPagedPoolUsage += newTempProcessesList->pmc.QuotaPagedPoolUsage;
-				oldTempProcessesList->pmc.QuotaPeakPagedPoolUsage += newTempProcessesList->pmc.QuotaPeakPagedPoolUsage;
-				newDllList = newTempProcessesList->DLL;
-				while (newDllList)
+				currOldProc->pmc.PageFaultCount += currNewProc->pmc.PageFaultCount;
+				currOldProc->pmc.PagefileUsage += currNewProc->pmc.PagefileUsage;
+				currOldProc->pmc.QuotaPagedPoolUsage += currNewProc->pmc.QuotaPagedPoolUsage;
+				currOldProc->pmc.QuotaPeakPagedPoolUsage += currNewProc->pmc.QuotaPeakPagedPoolUsage;
+				currOldProc->pmc.WorkingSetSize += currNewProc->pmc.WorkingSetSize;
+				currNewDll = currNewProc->DLL;
+				while (currNewDll)
 				{
-					oldDllList = oldTempProcessesList->DLL;
-					while (oldDllList)
+					currOldDll = currOldProc->DLL;
+					while (currOldDll)
 					{
-						if (strcmp(oldDllList->DLLName, newDllList->DLLName) == 0)
+						if (strcmp(currOldDll->DLLName, currNewDll->DLLName) == 0)
 						{
 							break;
 						}
-						if (!oldDllList->next) // adding new DLL
+						else if(!currOldDll->next)
 						{
-							newDLL = (t_DLL*)malloc(sizeof(t_DLL));
-							if (!newDLL)
+							newDll = (t_DLL*)malloc(sizeof(t_DLL));
+							if (!newDll)
 							{
 								LogError(strerror(GetLastError()));
 								return NULL;
 							}
-							strcpy(newDLL, newDllList);
-							printf("old dll list: \n\n------------\n");
-							printDllList(oldTempProcessesList->DLL);
-							printf("new dll is: %s\n", newDLL->DLLName);
-							addNewDll(oldDllList, newDLL);
-							oldTempProcessesList->numOfDLL++;
-							printf("New dll list\n\n------------\n");
-							printDllList(oldTempProcessesList->DLL);
-							break;
+							*newDll = *currNewDll;
+							addNewDll(currOldDll, newDll);
+							currOldProc->numOfDLL++;
 						}
-						oldDllList = oldDllList->next;
+						currOldDll = currOldDll->next;
 					}
-					oldDllList = oldTempProcessesList->DLL;
-					newDllList = newDllList->next;
+					currNewDll = currNewDll->next;
 				}
-				break; 
-			}          
-			if (!oldTempProcessesList->next) // adding new Process
+				break;
+			}
+			else if (!currOldProc->next)
 			{
 				newProcess = (t_Process*)malloc(sizeof(t_Process));
 				if (!newProcess)
@@ -227,29 +219,250 @@ t_snapShot* sumProcessesAndDLL(t_snapShot* oldSnapShot, t_snapShot* newSnapShot)
 					LogError(strerror(GetLastError()));
 					return NULL;
 				}
-				//printf("List before: \n --------\n");
-				//printProcessList(oldTempProcessesList);
-				newProcess->DLL = newTempProcessesList->DLL;
-				newProcess->numOfDLL = newTempProcessesList->numOfDLL;
-				newProcess->pmc = newTempProcessesList->pmc;
-				newProcess->ProcessID = newTempProcessesList->ProcessID;
-				strcpy(newProcess->ProcessName, newTempProcessesList->ProcessName);
-				//printf("the new process is %s\n", newSnapShot->process->ProcessName);
-				addNewProcess(oldTempProcessesList, newProcess);
+				*newProcess = *currNewProc;
+				addNewProcess(currOldProc, newProcess);
 				oldSnapShot->processCounter++;
-				//printf("List after: \n--------\n");
-				//printProcessList(oldTempProcessesList);
 				break;
 			}
-			oldTempProcessesList = oldTempProcessesList->next;
+			currOldProc = currOldProc->next;
 		}
-		newTempProcessesList = newTempProcessesList->next;
+		currNewProc = currNewProc->next;
 	}
 	resetSnapShot(newSnapShot);
-	return oldSnapShot;
+	currOldProc = oldSnapShot->process;
+}
+*/
+
+t_snapShot* GetProcessesInfo(t_snapShot* prevSnapShot)
+{
+	// Get Processes
+
+	// Receive all processes ID
+	DWORD aProcesses[1024], cbNeeded, cProcesses;  //DWORD aProcesses[1024] -> An array into which the process IDs will be entered
+	unsigned int i;
+
+	// *Receive all process ID and put in aProcesses Array
+	if (!EnumProcesses(aProcesses, sizeof(aProcesses), &cbNeeded))  //The function inserts into the array the entire list of processes running in the system
+	{
+		LogError("There are no processes in the system");
+
+		return 1;
+	}
+
+	// Calculate how many process identifiers were returned.
+	cProcesses = cbNeeded / sizeof(DWORD);
+
+	if (prevSnapShot == NULL)
+	{
+		headP = NULL;
+		tailP = NULL;
+		int processCount = 0;
+
+
+		//Defining a pointer variable of type struct SnapShot in order to enter the data into it
+		t_snapShot* mySnapShot = (struct SnapShot*)malloc(sizeof(t_snapShot));
+		if (mySnapShot == NULL)
+		{
+			LogError(strerror(GetLastError()));
+			return;
+		}
+
+		//*Loop of all processes
+		for (i = 0; i < cProcesses; i++)
+		{
+			mySnapShot->process = getMemoryInfo(aProcesses[i]);
+
+			if (mySnapShot->process != NULL)
+			{
+				addToProcessList(mySnapShot->process);
+				processCount++;
+			}
+		}
+
+		mySnapShot->processCounter = processCount;
+		mySnapShot->process = headP;
+
+		return mySnapShot;  //Return mySnapShot to create a linked list of SnapShots
+	}
+	else if (prevSnapShot != NULL)
+	{
+		//*Loop of all processes
+		for (i = 0; i < cProcesses; i++)
+		{
+			sumSnapShots(prevSnapShot, aProcesses[i]);  //Send to a function that accumulates data
+		}
+		//ProcessIDBubbleSort();  //For Debug
+		//PrintProcessIDList(HeadP);  //For Debug
+
+		//prevSnapShot->process = headP;
+
+		return prevSnapShot;
+	}
 }
 
-void addToDllList(t_DLL* DLL) 
+
+void sumSnapShots(t_snapShot* prevSnapShot, DWORD processID)
+{
+	headD = NULL;
+	tailD = NULL;
+	int counterDLL = 0;
+	t_Process* prevProcess = prevSnapShot->process;  //The processes of prev SnapShot
+	t_Process* newProcess;  //Defining a pointer variable of type struct Process in order to enter the data into it
+	size_t numConverted;
+
+	HANDLE hProcess;
+	PROCESS_MEMORY_COUNTERS pmc;
+
+	//Open process in order to receive information
+	hProcess = OpenProcess(PROCESS_QUERY_INFORMATION |
+		PROCESS_VM_READ,
+		FALSE, processID);
+	if (NULL == hProcess)
+	{
+		LogError(strerror(GetLastError()));
+		return NULL;
+	}
+
+	HMODULE hMods[1024];
+	DWORD cbNeeded;
+	TCHAR FoundProcessName[MAX_PATH];
+	TCHAR wDllName[MAX_PATH];
+
+	//Get Process Name
+	if (GetModuleFileNameEx(hProcess, 0, FoundProcessName, MAX_PATH))
+	{
+		// At this point, buffer contains the full path to the executable
+		char processName[MAX_PATH];
+		wcstombs_s(&numConverted, processName, MAX_PATH, FoundProcessName, MAX_PATH);
+		if (strlen(processName) > 1)   //If the process name is less than 1 character, return NULL
+		{
+			newProcess = (t_Process*)malloc(sizeof(t_Process));
+			if (!newProcess)
+			{
+				LogError(strerror(GetLastError()));
+				return;
+			}
+
+			strcpy(newProcess->ProcessName, processName);
+		}
+		else
+		{
+			return NULL;
+		}
+	}
+	else
+	{
+		LogError(strerror(GetLastError()));
+		return;
+	}
+
+	newProcess->ProcessID = processID;
+
+	if (GetProcessMemoryInfo(hProcess, &pmc, sizeof(pmc)))
+	{
+		newProcess->pmc.PageFaultCount = pmc.PageFaultCount;
+		newProcess->pmc.WorkingSetSize = pmc.WorkingSetSize;
+		newProcess->pmc.QuotaPagedPoolUsage = pmc.QuotaPagedPoolUsage;
+		newProcess->pmc.QuotaPeakPagedPoolUsage = pmc.QuotaPeakPagedPoolUsage;
+		newProcess->pmc.PagefileUsage = pmc.PagefileUsage;
+	}
+
+	// Get Dlls List
+	
+
+	if (EnumProcessModules(hProcess, hMods, sizeof(hMods), &cbNeeded))
+	{
+		for (int i = 0; i < (cbNeeded / sizeof(HMODULE)); i++)
+		{
+			if (GetModuleFileNameEx(hProcess, hMods[i], wDllName, MAX_PATH))
+			{
+				char getDllName[MAX_PATH];
+				wcstombs_s(&numConverted, getDllName, MAX_PATH, wDllName, MAX_PATH);
+				if (strlen(getDllName) > 1)   //If the DLL name is less than 1 character, return NULL
+				{
+					t_DLL* dllName = (t_DLL*)malloc(sizeof(t_DLL));
+					if (dllName == NULL)
+					{
+						LogError(strerror(GetLastError()));
+						return;
+					}
+
+					strcpy(dllName->DLLName, getDllName);
+					addToDllList(dllName);
+					counterDLL++;
+				}
+			}
+		}
+	}
+
+	newProcess->numOfDLL = counterDLL;
+	newProcess->DLL = headD;
+
+	//Temporary variables with which we will run on the DLLs lists
+	t_DLL* tempPrevDll = prevProcess->DLL;
+	t_DLL* tempNewDll = newProcess->DLL;
+
+	while (prevProcess != NULL)
+	{
+		//If its the same process, accumulate data
+		if (prevProcess->ProcessID == newProcess->ProcessID && strcmp(prevProcess->ProcessName, newProcess->ProcessName) == 0)
+		{
+			prevProcess->pmc.PageFaultCount += newProcess->pmc.PageFaultCount;
+			prevProcess->pmc.WorkingSetSize += newProcess->pmc.WorkingSetSize;
+			prevProcess->pmc.QuotaPagedPoolUsage += newProcess->pmc.QuotaPagedPoolUsage;
+			prevProcess->pmc.QuotaPeakPagedPoolUsage += newProcess->pmc.QuotaPeakPagedPoolUsage;
+			prevProcess->pmc.PagefileUsage += newProcess->pmc.PagefileUsage;
+
+			//Check the DLLs lists and add to prevProcess if its new
+			while (tempNewDll != NULL)
+			{
+				tempPrevDll = prevProcess->DLL;  //Keeps the start (head) of the list
+				while (tempPrevDll != NULL)
+				{
+					if (strcmp(tempPrevDll->DLLName, tempNewDll->DLLName) == 0)
+					{
+						break;
+					}
+
+					if (tempPrevDll->next == NULL)
+					{
+						t_DLL* newDll = (t_DLL*)malloc(sizeof(t_DLL));
+						if (newDll == NULL)
+						{
+							LogError(strerror(GetLastError()));
+							return;
+						}
+
+						strcpy(newDll->DLLName, tempNewDll->DLLName);
+						addNewDll(tempPrevDll, newDll);
+						LogEvent("New DLL has been s added to the process");
+						prevProcess->numOfDLL++;
+					}
+					tempPrevDll = tempPrevDll->next;
+				}
+				tempNewDll = tempNewDll->next;
+			}
+
+			//Free new Process and it's DLL List 
+			resetProcess(newProcess);
+			break;
+		}
+
+		prevProcess = prevProcess->next;
+	}
+
+	if (!prevProcess)  // new process
+	{
+		addNewProcess(tailP, newProcess);
+		LogEvent("A new Process is added to the SnapShot");
+		prevSnapShot->processCounter++;
+	}
+
+	CloseHandle(hProcess);
+}
+
+
+void addToDllList(t_DLL* DLL)
 {
 	if (!DLL)
 	{
@@ -303,23 +516,34 @@ void addNewProcess(t_Process* oldProcess, t_Process* newProcess)
 void printDllList(t_DLL* dll) // a function that i was checking if dll has been added
 {
 	t_DLL* temp = dll;
+	int i = 1;
+	printf("Dll list:\n");
 	while (temp)
 	{
-		printf("%s\n", temp->DLLName);
+		printf("%d. %s\n",i, temp->DLLName);
+		i++;
 		temp = temp->next;
 	}
 }
 
 
-void printProcessList(t_Process* process) // a function that i was checking if process has been added
+void printProcessList(t_Process* proc) // a function that i was checking if process has been added
 {
-	//t_Process* temp = process;
-	while (process)
+	t_Process* temp = proc;
+	int i = 0;
+	while (temp)
 	{
-		printf("%s\n", process->ProcessName);
-		process = process->next;
+		i++;
+
+		printf("%d Process Id: %d Process: ", i, temp->ProcessID);
+		printf("%s\n\n", temp->ProcessName);
+		if (temp->DLL)
+		{
+			printDllList(temp->DLL);
+		}
+
+		temp = temp->next;
 	}
 
 }
-
 

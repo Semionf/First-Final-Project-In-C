@@ -48,6 +48,7 @@ void menu()
 			snapShot->sampleNumber = numberOfSnapShots;
 			shakeSort(snapShot);
 			snapShotList = addToList(snapShot);
+			printProcessList(snapShotList->process);
 			break;
 		case 3:	//Long summing snapshots till user type "End"
 			numberOfSnapShots++;
@@ -64,7 +65,7 @@ void menu()
 			generateHtmlReport(snapShotList, dict);
 			break;
 		case 5: // reset all snapshots generated
-			resetCollection(snapShotList, headerOfFile);
+			resetCollection(snapShotList, headerOfFile, dict);
 			headerOfFile->ItemsCount = 0;
 			snapShotList = NULL;
 			addToList(NULL);
@@ -73,10 +74,11 @@ void menu()
 			saveInFile(headerOfFile, snapShotList);
 			break;
 		case 7: // load from file
-			snapShotList = loadFromFile(headerOfFile);
+			snapShot = loadFromFile(headerOfFile);
+			addToList(snapShot);
 			break;
 		case 8: // Delete all and Quit
-			resetCollection(snapShotList, headerOfFile);
+			resetCollection(snapShotList, headerOfFile, dict);
 			numberOfSnapShots = 0;
 			headerOfFile->ItemsCount = numberOfSnapShots;
 			break;
