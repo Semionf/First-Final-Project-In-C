@@ -8,7 +8,7 @@ body {
 
 .sample>table{
   margin: 10vh auto;
-  width: 80%;
+  width: 95%;
 }
 
 .Title{
@@ -139,4 +139,53 @@ a:hover{
 
   .tdMainTable{
     text-align: center;
+  }
+
+  .warningImg{
+    width: 30px;
+  }
+
+  .aboutMeText{
+    margin: 0 auto;
+    margin-top: 50px;
+    width: 50%;
+    padding: 10px;
+    align-self: center;
+    width: 800px;
+    font-size: 25px;
+  }
+
+  .github{
+    margin-right: 50px;
+  }
+
+  .video{
+    position: absolute;
+    bottom: 20px;
+    left: 700px;
+    height: 300px;
+    width: 300px;
+  }
+  .guitarImg{
+    position: absolute;
+    left: 100px;
+    top: 300px;
+  }
+
+  .computerImg{
+    position: absolute;
+    right: 150px;
+    top: 300px;
+  }
+
+  .musicImg{
+    position: absolute;
+    bottom: 150px;
+    left: 200px;
+  }
+
+  .moviesImg{
+    position: absolute;
+    bottom: 150px;
+    right: 400px;
   }
