@@ -3,7 +3,7 @@
 Dictionary* dictHead = NULL, *dictTail = NULL;
 P_Dictionary* P_dictHead = NULL, * P_dictTail = NULL;
 
-Dictionary* buildDictionary(t_snapShot* head) //build dictionary
+Dictionary* buildDictionary(t_snapShot* head) //build dictionary of dlls
 {
 	if (!head)
 	{
@@ -31,7 +31,7 @@ Dictionary* buildDictionary(t_snapShot* head) //build dictionary
 	return dictHead;
 }
 
-void addToDictionary(char* DLLName, t_Process* process) //	add key
+void addToDictionary(char* DLLName, t_Process* process) //	add key - dll
 {
 	char temp1[MAX_PATH], temp2[MAX_PATH];
 	Dictionary* sub = (Dictionary*)malloc(sizeof(Dictionary));
@@ -82,7 +82,7 @@ void addToDictionary(char* DLLName, t_Process* process) //	add key
 	}
 }
 
-void addNewValue(Dictionary* currDict, t_Process* process) // add value
+void addNewValue(Dictionary* currDict, t_Process* process) // add value - process
 {
 	t_Process* newProcess = process;
 	t_Process* curr = currDict->value;
@@ -131,7 +131,7 @@ P_Dictionary* buildProcessDictionary(t_snapShot* head) // building process dicti
 	}
 	return P_dictHead;
 }
-void addProcessToDictionary(t_Process* process) // add key
+void addProcessToDictionary(t_Process* process) // add key - process
 {
 	P_Dictionary* sub = (P_Dictionary*)malloc(sizeof(P_Dictionary));
 	P_Dictionary* curr;

@@ -1,2 +1,5 @@
-﻿  snapShot.c
+﻿  getInfo.c
+C:\Users\משתמש\source\repos\FirstSemesterProject\FirstSemesterProject\getInfo.c(140,20): warning C4018: '<': signed/unsigned mismatch
+C:\Users\משתמש\source\repos\FirstSemesterProject\FirstSemesterProject\getInfo.c(202,20): warning C4098: 'sumProcessesAndDLL': 'void' function returning a value
+C:\Users\משתמש\source\repos\FirstSemesterProject\FirstSemesterProject\getInfo.c(220,17): warning C4098: 'sumProcessesAndDLL': 'void' function returning a value
   FirstSemesterProject.vcxproj -> C:\Users\משתמש\source\repos\FirstSemesterProject\x64\Debug\FirstSemesterProject.exe

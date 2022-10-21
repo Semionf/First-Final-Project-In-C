@@ -72,6 +72,7 @@ void homePage(t_snapShot* headS, Dictionary* headD) //making home page
 	sprintf(htmlHomePage, " </table></div></div></main></body></html>");
 	fputs(htmlHomePage, f);
 	fclose(f);
+	resetPDict(head);
 }
 
 void generateSnapShotPage(t_snapShot* curr, char* fileName) // generating snapshot pages
@@ -98,11 +99,11 @@ void generateSnapShotPage(t_snapShot* curr, char* fileName) // generating snapsh
 		currDLL = currProcess->DLL;
 		if (index != highestMemIndex)
 		{
-			sprintf(lineInTable, "<tr><td>%s</td><td>%d</td><td>%ld</td><td>%llu</td><td>%ld</td><td>%ld</td><td>%ld</td><td>%d</td><td class=\"wrapper\"><div class=\"selectDLL\"><select class=\"selectDLL\"><option>List</option>", currProcess->ProcessName, currProcess->ProcessID, currProcess->pmc.PageFaultCount, currProcess->pmc.WorkingSetSize, currProcess->pmc.QuotaPagedPoolUsage, currProcess->pmc.QuotaPeakPagedPoolUsage, currProcess->pmc.PagefileUsage, currProcess->numOfDLL);
+			sprintf(lineInTable, "<tr><td>%s</td><td>%d</td><td>%ld</td><td>%llu</td><td>%llu</td><td>%llu</td><td>%llu</td><td>%d</td><td class=\"wrapper\"><div class=\"selectDLL\"><select class=\"selectDLL\"><option>List</option>", currProcess->ProcessName, currProcess->ProcessID, currProcess->pmc.PageFaultCount, currProcess->pmc.WorkingSetSize, currProcess->pmc.QuotaPagedPoolUsage, currProcess->pmc.QuotaPeakPagedPoolUsage, currProcess->pmc.PagefileUsage, currProcess->numOfDLL);
 		}
 		else
 		{
-			sprintf(lineInTable, "<tr><td>%s</td><td>%d</td><td>%ld</td><td>%llu<img class=\"warningImg\" src=\"4201973.png\" alt=\"\"></td><td>%ld</td><td>%llu</td><td>%ld</td><td>%d</td><td class=\"wrapper\"><div class=\"selectDLL\"><select class=\"selectDLL\"><option>List</option>", currProcess->ProcessName, currProcess->ProcessID, currProcess->pmc.PageFaultCount, currProcess->pmc.WorkingSetSize, currProcess->pmc.QuotaPagedPoolUsage, currProcess->pmc.QuotaPeakPagedPoolUsage, currProcess->pmc.PagefileUsage, currProcess->numOfDLL);
+			sprintf(lineInTable, "<tr><td>%s</td><td>%d</td><td>%ld</td><td>%llu<img class=\"warningImg\" src=\"4201973.png\" alt=\"\"></td><td>%llu</td><td>%llu</td><td>%llu</td><td>%d</td><td class=\"wrapper\"><div class=\"selectDLL\"><select class=\"selectDLL\"><option>List</option>", currProcess->ProcessName, currProcess->ProcessID, currProcess->pmc.PageFaultCount, currProcess->pmc.WorkingSetSize, currProcess->pmc.QuotaPagedPoolUsage, currProcess->pmc.QuotaPeakPagedPoolUsage, currProcess->pmc.PagefileUsage, currProcess->numOfDLL);
 		}
 		fputs(lineInTable, f);
 		sprintf(lineInTable, "");
@@ -136,7 +137,7 @@ void generateDLLPage(Dictionary* curr, char* fileName) // generating DLL pages
 	fputs(htmlDLLPage,f);
 	while (currProcess)
 	{
-		sprintf(lineInTable, "<tr><th>%s</th><th>%d</th><th>%ld</th><th>%llu</th><th>%ld</th><th>%ld</th><th>%ld</th></tr>",currProcess->ProcessName,currProcess->ProcessID, currProcess->pmc.PageFaultCount, currProcess->pmc.WorkingSetSize, currProcess->pmc.QuotaPagedPoolUsage, currProcess->pmc.QuotaPeakPagedPoolUsage, currProcess->pmc.PagefileUsage);
+		sprintf(lineInTable, "<tr><th>%s</th><th>%d</th><th>%ld</th><th>%llu</th><th>%llu</th><th>%llu</th><th>%llu</th></tr>",currProcess->ProcessName,currProcess->ProcessID, currProcess->pmc.PageFaultCount, currProcess->pmc.WorkingSetSize, currProcess->pmc.QuotaPagedPoolUsage, currProcess->pmc.QuotaPeakPagedPoolUsage, currProcess->pmc.PagefileUsage);
 		fputs(lineInTable, f);
 		currProcess = currProcess->next;
 	}
@@ -158,13 +159,13 @@ void generateAboutMePage() // generating About me page
 	fclose(f);
 }
 
-long calculateAvgWorkingSetSize(t_snapShot* snapShot) // calculating AVG of Working set size of all snapshots.
+long long calculateAvgWorkingSetSize(t_snapShot* snapShot) // calculating AVG of Working set size of all snapshots.
 {
 	t_snapShot* curr = snapShot;
 	int numOfProcesses = 0;
 	if (!curr)
 	{
-		return NULL;
+		return 0;
 	}
 	t_Process* currProcess;
 	long long sum = 0;
@@ -184,16 +185,16 @@ long calculateAvgWorkingSetSize(t_snapShot* snapShot) // calculating AVG of Work
 	return avg;
 }
 
-long calculateAvgWorkingSetSizeForCurrentSnapShot(t_snapShot* snapShot) // calculating AVG of Working set size for current snapshot.
+long long calculateAvgWorkingSetSizeForCurrentSnapShot(t_snapShot* snapShot) // calculating AVG of Working set size for one snapshot.
 {
 	t_snapShot* curr = snapShot;
 	if (!curr)
 	{
-		return NULL;
+		return 0;
 	}
 	t_Process* currProcess;
 	long long sum = 0;
-	long avg;
+	long long avg;
 	currProcess = curr->process;
 	while (currProcess)
 	{
@@ -214,7 +215,7 @@ char* SamplesList(t_snapShot* snapShot, Dictionary* dict) // each sample in tabl
 	long long avgWorkingSetSize;
 	if (!curr)
 	{
-		return;
+		return NULL;
 	}
 	while (currProcess)
 	{
@@ -223,7 +224,7 @@ char* SamplesList(t_snapShot* snapShot, Dictionary* dict) // each sample in tabl
 	}
 	avgWorkingSetSize = calculateAvgWorkingSetSizeForCurrentSnapShot(curr);
 	sprintf(fileAddress, "file:///C:/html/sample%d.html", curr->sampleNumber);
-	sprintf(str, "<tr><td>%d</td><td><a href=\"%s\">sample%d.html</a></td><td>%d</td><td>%ld</td></tr>", curr->sampleNumber, fileAddress, curr->sampleNumber, numOfDLL, avgWorkingSetSize);
+	sprintf(str, "<tr><td>%d</td><td><a href=\"%s\">sample%d.html</a></td><td>%d</td><td>%llu</td></tr>", curr->sampleNumber, fileAddress, curr->sampleNumber, numOfDLL, avgWorkingSetSize);
 
 	return str;
 }
@@ -235,7 +236,7 @@ char* DLLList(Dictionary* currDict, int num) // each dll in table
 	Dictionary* curr = currDict;
 	if (!curr)
 	{
-		return;
+		return NULL;
 	}
 	sprintf(fileAddress, "file:///C:/html/dll%d.html", num);
 	sprintf(str, "<tr><td class=\"rightTable\">%s</td><td class=\"tdMainTable\"><a href=\"%s\">dll%d.html</a></td></tr>", curr->key, fileAddress, num);

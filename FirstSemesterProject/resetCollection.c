@@ -62,25 +62,17 @@ void resetDict(Dictionary* head)
 {
 	Dictionary* curr;
 	t_Process* currProc;
-	t_DLL* currDLL;
-	t_DLL* delDLL;
+
 	while (head)
 	{
 		curr = head;
 		currProc = curr->value;
 		{
-			currDLL = currProc->DLL;
-			while (currDLL)
-			{
-				delDLL = currDLL;
-				currDLL = currDLL->next;
-				free(delDLL);
-			}
-			currDLL = NULL;
+			currProc = curr->value;
 			curr->value = curr->value->next;
 			free(currProc);
-			currProc = NULL;
 		}
+		curr->value = NULL;
 		head = head->next;
 	}
 	head = NULL;

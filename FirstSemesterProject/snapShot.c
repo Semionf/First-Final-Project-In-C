@@ -13,7 +13,7 @@ t_snapShot* twentySnapShots()
 	for (int i = 0; i < 20; i++)
 	{
 		sumSnapShots = oneSnapShot(sumSnapShots);
-		printProcessList(sumSnapShots->process);
+		//printProcessList(sumSnapShots->process);
 		printf("\n\nRotation number %d \n\n",i);
 		Sleep(1000);
 	}
