@@ -1,5 +1,9 @@
-﻿  getInfo.c
-C:\Users\משתמש\source\repos\FirstSemesterProject\FirstSemesterProject\getInfo.c(140,20): warning C4018: '<': signed/unsigned mismatch
-C:\Users\משתמש\source\repos\FirstSemesterProject\FirstSemesterProject\getInfo.c(202,20): warning C4098: 'sumProcessesAndDLL': 'void' function returning a value
-C:\Users\משתמש\source\repos\FirstSemesterProject\FirstSemesterProject\getInfo.c(220,17): warning C4098: 'sumProcessesAndDLL': 'void' function returning a value
+﻿  Save_Load.c
+C:\Users\משתמש\source\repos\FirstSemesterProject\FirstSemesterProject\Save_Load.c(83,3): warning C4033: 'loadFromFile' must return a value
+  generateHtmlReport.c
+  Generating Code...
+C:\Users\משתמש\source\repos\FirstSemesterProject\FirstSemesterProject\generateHtmlReport.c(228): warning C4172: returning address of local variable or temporary: str
+C:\Users\משתמש\source\repos\FirstSemesterProject\FirstSemesterProject\generateHtmlReport.c(250): warning C4172: returning address of local variable or temporary: str
+C:\Users\משתמש\source\repos\FirstSemesterProject\FirstSemesterProject\generateHtmlReport.c(243): warning C4172: returning address of local variable or temporary: str
+C:\Users\משתמש\source\repos\FirstSemesterProject\FirstSemesterProject\Save_Load.c(140): warning C4715: 'loadFromFile': not all control paths return a value
   FirstSemesterProject.vcxproj -> C:\Users\משתמש\source\repos\FirstSemesterProject\x64\Debug\FirstSemesterProject.exe

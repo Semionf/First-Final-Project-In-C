@@ -1,0 +1,165 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+  }
+  
+  body {
+    background-image: linear-gradient(to right, rgba(255,0,0,0), rgb(36, 193, 214));
+    margin: 0 auto;
+    padding: 0;
+    height:auto;
+  }
+  
+
+  .Nav{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: aqua;
+    width: 100%;
+    margin: 0 auto;
+    height: 155px;
+  }
+
+
+.headerDiv{
+  width: 100%;
+}
+
+ul{
+    list-style: none;
+  }
+  .box1 {
+    align-self: center;
+    width: 100%;
+    font-size: 25px;
+    border: 10px solid blue;
+    text-align: center;
+  }
+
+  table{
+    width: 100%;
+    table-layout:fixed;
+    white-space:nowrap;
+    border: 1px solid;
+    border-color: black;
+    border-collapse: collapse;
+    min-width: 450px;
+  }
+
+  tr,td,th
+  {
+    align-items: center;
+    white-space: nowrap;
+    border: 1px solid;
+    border-color: black;
+    border-collapse: collapse;
+    text-align: center;
+  }
+
+  .tableCont{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    margin-top: 30px;
+    width: 100%;
+  }
+  
+  .HeadLines{
+    margin-top: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+  }
+
+  .divTable{
+    width: 40%;
+ 
+    margin-top:20px;
+  }
+
+  .aboutMe{
+    width: 160px;  
+    margin-bottom: 0px;
+  }
+  
+  .logoImg{
+    width: 200px;
+  }
+
+  .longName{
+
+    width: 100px;
+    overflow-x:auto; 
+  }
+
+  .leftTable
+  {
+    width: 100%;
+    grid-area: item1;
+  }
+
+  .rightTable{
+    width: 100%;
+    grid-area: item2;
+  }
+
+  @media screen and (max-width: 1750px) {
+    .tableCont {
+      display: grid;
+      grid-template-columns: 100%;
+      grid-template-rows: repeat(2, auto);
+      grid-template-areas:
+        "leftTable"
+        "rightTable";
+      gap: 10px;
+      padding: 10px;
+    }
+    .Nav
+    {
+        height: 450px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-direction: column;
+    }
+    .aboutMe{
+      margin: 0 auto;
+      bottom: -4px;
+      position: relative;
+      width: 160px;  
+    }
+  }
+  @media screen and (max-width: 650px) {
+    input{
+      width: 130px;
+    }
+    .Nav {
+      height: 450px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-direction: column;
+  }
+    .tableCont {
+      display: grid;
+      justify-content: center;
+      grid-template-columns: 100%;
+      grid-template-rows: repeat(2, auto);
+      grid-template-areas:
+        "leftTable"
+        "rightTable";
+      gap: 10px;
+      padding: 10px;
+    }
+    
+    }
+  a{
+  text-decoration: none;
+  color: black;
+}
+
+a:hover{
+    color: blue;
+
+  }

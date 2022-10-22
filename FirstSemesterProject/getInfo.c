@@ -80,7 +80,7 @@ t_Process* getMemoryInfo(DWORD processID)
 				// Convert wChar to regular char array (string)
 
 				wcstombs_s(&numConverted, str2, MAX_PATH, wDllName, MAX_PATH);
-				if ((strstr(str,".dll")) || (strstr(str, ".DLL")))
+				if ((strstr(str2,".dll")) || (strstr(str2, ".DLL")))
 				{
 
 					DLL = (t_DLL*)malloc(sizeof(t_DLL));

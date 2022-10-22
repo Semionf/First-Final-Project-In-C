@@ -99,6 +99,12 @@ t_snapShot* loadFromFile(t_headerOfFile* headerOfFile)
 		}
 		for(int j = 0; j < curr->processCounter; j++)
 		{
+			currProcess = (t_Process*)malloc(sizeof(t_Process));
+			if (!currProcess)
+			{
+				printf("Allocation Error");
+				exit(1);
+			}
 			fread(currProcess, sizeof(t_Process), 1, f);
 			currDLL = (t_DLL*)malloc(sizeof(t_DLL));
 			if (!currDLL)
@@ -108,29 +114,21 @@ t_snapShot* loadFromFile(t_headerOfFile* headerOfFile)
 			}
 			for (int k = 0; k < currProcess->numOfDLL; k++)
 			{
-				fread(currDLL, sizeof(t_DLL), 1, f);
-				addToDllListFromFile(currDLL);
 				currDLL = (t_DLL*)malloc(sizeof(t_DLL));
 				if (!currDLL)
 				{
 					LogError(strerror(GetLastError()));
 					exit(1);
 				}
+				fread(currDLL, sizeof(t_DLL), 1, f);
+				addToDllListFromFile(currDLL);
 			}
 			currProcess->DLL = headDLL;
 			headDLL = NULL;
 			tailDLL = NULL;
-			free(currDLL);
 			addToProcessListFromFile(currProcess);
-			currProcess = (t_Process*)malloc(sizeof(t_Process));
-			if (!currProcess)
-			{
-				printf("Allocation Error");
-				exit(1);
-			}
 		}
 		curr->process = headProcess;
-		free(currProcess);
 		snapShotList = addToList(curr);
 		headProcess = NULL;
 		tailProcess = NULL;
