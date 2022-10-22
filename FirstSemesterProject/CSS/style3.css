@@ -1,78 +1,81 @@
 * {
-    box-sizing: border-box;
-    margin: 0;
-  }
-  
-  body {
-    background-image: linear-gradient(to right, rgba(255,0,0,0), rgb(36, 193, 214));
-    margin: 0 auto;
-    padding: 0;
-    height:auto;
-  }
-  
+  box-sizing: border-box;
+  margin: 0;
+}
 
-  .Nav{
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    background-color: aqua;
-    width: 100%;
-    margin: 0 auto;
-    height: 155px;
-  }
-  ul{
-    list-style: none;
-  }
+body {
+  background-image: linear-gradient(
+    to right,
+    rgba(255, 0, 0, 0),
+    rgb(36, 193, 214)
+  );
+  margin: 0 auto;
+  padding: 0;
+  height: auto;
+}
 
-  .box1 {
-    align-self: center;
-    width: 100%;
-    font-size: 25px;
-    border: 10px solid blue;
-    text-align: center;
-  }
+.Nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: aqua;
+  width: 100%;
+  margin: 0 auto;
+  height: 155px;
+}
+ul {
+  list-style: none;
+}
 
-  .aboutMeText{
-    margin: 0 auto;
-    margin-top: 50px;
-    width: 50%;
-    padding: 10px;
-    align-self: center;
-    width: 800px;
-    font-size: 25px;
-  }
+.box1 {
+  align-self: center;
+  width: 100%;
+  font-size: 25px;
+  border: 10px solid blue;
+  text-align: center;
+}
 
-  .github{
-    margin-right: 50px;
-  }
+.aboutMeText {
+  margin: 0 auto;
+  margin-top: 50px;
+  width: 50%;
+  padding: 10px;
+  align-self: center;
+  width: 800px;
+  font-size: 15px;
+}
 
-  .video{
-    position: absolute;
-    bottom: 20px;
-    left: 850px;
-    height: 300px;
-    width: 300px;
-  }
-  .guitarImg{
-    position: absolute;
-    left: 100px;
-    top: 300px;
-  }
+.github {
+  margin-right: 50px;
+}
 
-  .computerImg{
-    position: absolute;
-    right: 150px;
-    top: 300px;
-  }
+.video {
+  position: absolute;
+  bottom: 20px;
+  left: 500px;
+  height: 220px;
+  width: 220px;
+}
+.guitarImg {
+  position: absolute;
+  left: 5%;
+  top: 28%;
+}
 
-  .musicImg{
-    position: absolute;
-    bottom: 150px;
-    left: 200px;
-  }
+.computerImg {
+  position: absolute;
+  right: 5%;
+  top: 28%;
+}
 
-  .moviesImg{
-    position: absolute;
-    bottom: 150px;
-    right: 400px;
-  }
+.musicImg {
+  position: absolute;
+  left: 10%;
+  bottom: 10%;
+}
+
+.moviesImg {
+  position: absolute;
+  right: 10%;
+  bottom: 10%;
+}

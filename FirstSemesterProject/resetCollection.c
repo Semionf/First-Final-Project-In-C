@@ -4,6 +4,10 @@ void resetProcess(t_Process* process) { // deletes one snapshot
 	t_DLL* tempDLL;
 
 	tempPorcess = process;
+	if (!tempPorcess)
+	{
+		return;
+	}
 	tempDLL = tempPorcess->DLL;
 	while (tempPorcess->DLL)
 	{
@@ -41,14 +45,25 @@ void resetCollection(t_snapShot* snapShotList, t_headerOfFile* header, Dictionar
 		snapShotList = snapShotList->next;
 		free(currentSnapShot);
 	}
-	free(header);
+	if (header)
+	{
+		free(header);
+	}
 	addToList(NULL);
+	if (!dict)
+	{
+		return;
+	}
 	resetDict(dict);
 }
 
 void resetPDict(P_Dictionary* head)
 {
 	P_Dictionary* curr = head;
+	if (!curr)
+	{
+		return;
+	}
 	while (head)
 	{
 		curr = head;
@@ -62,7 +77,10 @@ void resetDict(Dictionary* head)
 {
 	Dictionary* curr;
 	t_Process* currProc;
-
+	if (!head)
+	{
+		return;
+	}
 	while (head)
 	{
 		curr = head;
